@@ -13,10 +13,11 @@ Read these in order:
 3. `reports/sample_agentic_risk_brief.md`
 4. `examples/ART-007-public-benchmark-indirect-injection.json`
 5. `docs/portfolio/model_observation_evidence_appendix.md`
-6. `docs/portfolio/working_paper_preview.md`
-7. `docs/portfolio/end_to_end_case_study.md`
-8. `reports/living_agentic_risk_operating_loop.md`
-9. `reports/risk_delta_matrix.md`
+6. `docs/portfolio/injection_sentinel_benchmark_results.md`
+7. `docs/portfolio/working_paper_preview.md`
+8. `docs/portfolio/end_to_end_case_study.md`
+9. `reports/living_agentic_risk_operating_loop.md`
+10. `reports/risk_delta_matrix.md`
 
 What to look for:
 

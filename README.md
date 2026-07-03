@@ -572,7 +572,7 @@ The current verified summary is modest:
 - a separate 7-model / 96-segment cross-judge generalization study;
 - this repo's 7 public-safe synthetic decision traces.
 
-See `docs/portfolio/model_observation_evidence_appendix.md`.
+See `docs/portfolio/model_observation_evidence_appendix.md`, and `docs/portfolio/injection_sentinel_benchmark_results.md` for measured results — including the unflattering false-positive rate — from benchmarking a private injection monitor against four public datasets.
 
 ## How To Run The Prototype
 
