@@ -1,0 +1,65 @@
+[
+  {
+    "name": "OWASP Top 10 for LLM Applications",
+    "tier": 0,
+    "type": "standard",
+    "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+    "use": "Stable LLM security risk categories and mitigations."
+  },
+  {
+    "name": "MITRE ATLAS",
+    "tier": 0,
+    "type": "standard",
+    "url": "https://atlas.mitre.org/",
+    "use": "Adversarial AI tactics, techniques, mitigations, and case studies."
+  },
+  {
+    "name": "NIST AI RMF / Generative AI Profile",
+    "tier": 0,
+    "type": "standard",
+    "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+    "use": "Govern, map, measure, manage framing; provenance and TEVV concepts."
+  },
+  {
+    "name": "AI Incident Database",
+    "tier": 2,
+    "type": "incident_database",
+    "url": "https://incidentdatabase.ai/",
+    "use": "Real-world AI harm reports and incident taxonomies."
+  },
+  {
+    "name": "MIT AI Incident Tracker",
+    "tier": 2,
+    "type": "incident_database",
+    "url": "https://airisk.mit.edu/ai-incident-tracker",
+    "use": "Incident classification by risk, cause, harm, severity, and related dimensions."
+  },
+  {
+    "name": "BIPIA",
+    "tier": 1,
+    "type": "benchmark",
+    "url": "https://github.com/microsoft/BIPIA",
+    "use": "Benchmark for indirect prompt injection in external content."
+  },
+  {
+    "name": "Mozilla.ai Guardrail Benchmarking",
+    "tier": 1,
+    "type": "research",
+    "url": "https://blog.mozilla.ai/can-open-source-guardrails-really-protect-ai-agents/",
+    "use": "Evidence that prompt-injection guardrails and function-call malfunction detection need separate evaluation."
+  },
+  {
+    "name": "Curated Social Streams",
+    "tier": 3,
+    "type": "social",
+    "url": "manual-curation",
+    "use": "Early weak signals, jailbreak motifs, public user failures, and creative adversarial ideas."
+  },
+  {
+    "name": "X API Recent Search",
+    "tier": 3,
+    "type": "social",
+    "url": "https://docs.x.com/x-api/posts/search-recent-posts",
+    "use": "Credential-gated collection of recent public Posts matching risk-intelligence queries."
+  }
+]

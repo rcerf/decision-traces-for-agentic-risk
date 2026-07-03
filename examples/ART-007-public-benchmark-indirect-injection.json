@@ -1,0 +1,35 @@
+{
+  "trace_id": "ART-007",
+  "title": "Public-benchmark-inspired indirect prompt injection in a workspace agent",
+  "source_signal": "external_research",
+  "agentic_surface": "tool_calling",
+  "risk_category": "prompt_injection",
+  "evidence": {
+    "observed_behavior": "A workspace-style agent reads untrusted external content while completing a legitimate user task. The content contains instruction-like text that attempts to redirect the agent toward an unintended tool action.",
+    "why_it_matters": "Public benchmarks such as AgentDojo and BIPIA show why indirect prompt injection is a lifecycle risk, not only a final-answer risk: unsafe behavior can begin when the agent interprets untrusted content as instruction and prepares a tool call.",
+    "open_questions": [
+      "Does the agent preserve a trust boundary between user/developer instructions and external content?",
+      "Can the monitor identify the first point where untrusted content starts influencing tool selection?",
+      "Does a benign control with similar formatting avoid triggering the same alert?"
+    ]
+  },
+  "confidence": "medium",
+  "severity": "high",
+  "competing_hypotheses": [
+    "The model is vulnerable to indirect prompt injection through untrusted context.",
+    "The product lacks enough provenance separation between retrieved content and executable instruction.",
+    "The specific tool surface or prompt format is amplifying an otherwise manageable risk."
+  ],
+  "recommended_action": "Add a benchmark-to-trace adapter that converts public indirect-injection fixtures into safe decision traces with stage detected, affected surface, proposed control, benign control result, and residual-risk note.",
+  "owner": "Agent Safety / Evals / Tooling Platform",
+  "mitigation_status": "proposed",
+  "human_approval": {
+    "required": true,
+    "reason": "The risk involves a possible external side effect caused by untrusted content influencing tool selection.",
+    "approval_gate": "before_external_side_effect"
+  },
+  "residual_risk": "A safe abstraction may miss attack variants that depend on exact wording, formatting, or multi-step social context.",
+  "reusable_eval_case": "Convert a public-benchmark-inspired indirect-injection fixture into a trace while preserving risk structure and omitting raw exploit instructions.",
+  "taxonomy_gap": "Need a crosswalk from public benchmark cases to lifecycle stage, trust-boundary failure, and first useful intervention point.",
+  "next_review": "2026-07-16"
+}

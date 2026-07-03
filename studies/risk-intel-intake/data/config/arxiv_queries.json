@@ -1,0 +1,34 @@
+[
+  {
+    "name": "prompt-injection-and-agents",
+    "query": "all:\"prompt injection\" OR all:\"indirect prompt injection\" OR all:\"LLM agent\"",
+    "max_results": 5,
+    "risk_categories": [
+      "prompt_injection",
+      "indirect_prompt_injection",
+      "agentic_failure_mode"
+    ],
+    "affected_surfaces": [
+      "ingress",
+      "retrieval",
+      "tool_calling"
+    ],
+    "proposed_probe_stage": "ingress"
+  },
+  {
+    "name": "guardrails-and-tool-use",
+    "query": "all:\"LLM guardrails\" OR all:\"tool use\" OR all:\"function calling\"",
+    "max_results": 5,
+    "risk_categories": [
+      "guardrail_gap",
+      "tool_overreach",
+      "function_call_malfunction"
+    ],
+    "affected_surfaces": [
+      "tool_calling",
+      "connector",
+      "trajectory"
+    ],
+    "proposed_probe_stage": "trajectory"
+  }
+]

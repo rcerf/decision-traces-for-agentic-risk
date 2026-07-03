@@ -1,0 +1,38 @@
+[
+  {
+    "risk_id": "RISK-001",
+    "name": "Indirect prompt injection",
+    "surfaces": ["retrieval", "tool_calling", "connector"],
+    "known_evidence": ["OWASP", "AgentDojo", "OpenAI prompt-injection materials"]
+  },
+  {
+    "risk_id": "RISK-002",
+    "name": "Approval quality failure",
+    "surfaces": ["tool_calling", "connector", "workflow_automation"],
+    "known_evidence": ["system cards", "product safeguards"]
+  },
+  {
+    "risk_id": "RISK-003",
+    "name": "Memory integrity failure",
+    "surfaces": ["memory", "retrieval"],
+    "known_evidence": ["memory poisoning research"]
+  },
+  {
+    "risk_id": "RISK-004",
+    "name": "Open-weight irreversibility",
+    "surfaces": ["governance", "model_release"],
+    "known_evidence": ["open-weight release analysis", "deployment governance"]
+  },
+  {
+    "risk_id": "RISK-005",
+    "name": "Telemetry privacy failure",
+    "surfaces": ["endpoint", "telemetry", "governance"],
+    "known_evidence": ["privacy engineering", "differential privacy"]
+  },
+  {
+    "risk_id": "RISK-006",
+    "name": "Agent-on-agent exploit discovery",
+    "surfaces": ["multi_agent", "adversarial_probe", "telemetry", "governance"],
+    "known_evidence": ["red-team automation", "multi-agent security research", "model behavior monitoring"]
+  }
+]

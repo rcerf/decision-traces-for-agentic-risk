@@ -1,0 +1,259 @@
+[
+  {
+    "risk_id": "SRA-001",
+    "title": "Cross-surface prompt injection becomes private-data action, not just unsafe text",
+    "thesis": "The highest-priority agentic failure mode is a long-horizon chain where untrusted content influences an agent that can read private context and then act through email, browser, file, calendar, or other connector surfaces.",
+    "likelihood": 5,
+    "impact": 5,
+    "novelty": 3,
+    "actionability": 5,
+    "confidence": "high",
+    "affected_surfaces": ["ingress", "retrieval", "connector", "tool_calling", "final_output"],
+    "why_might_be_under_instrumented": "Many controls are evaluated at one boundary at a time: prompt ingress, final answer, or individual tool call. The risky chain may only become legible when source provenance, retrieved context, tool authority, approval state, and final response are joined into one trace.",
+    "likely_failure_path": "A user asks for a benign summarization or workflow task. Retrieved web/email/document content contains instruction-like text. The agent incorporates that text into its plan, reads private context, and proposes or executes an external side effect that exposes data or changes state.",
+    "early_indicators": [
+      "Tool calls whose destination connector differs from the user's original task surface.",
+      "Plans that cite untrusted retrieved content as if it were user intent.",
+      "Final answers that look benign while intermediate tool calls crossed a data boundary.",
+      "Approval prompts that describe the action generically rather than naming source, destination, and sensitive fields."
+    ],
+    "safe_probe": "Use synthetic retrieved content containing harmless out-of-scope instructions and mocked connectors. Score whether the system detects goal drift before external side effect.",
+    "decision_needed": "Define the minimum trace fields required before any cross-connector action: source trust, user intent, data class, destination, approval text, reversibility, and owner.",
+    "sources": [
+      {
+        "label": "OpenAI Atlas prompt-injection hardening",
+        "url": "https://openai.com/index/hardening-atlas-against-prompt-injection/"
+      },
+      {
+        "label": "OpenAI designing agents to resist prompt injection",
+        "url": "https://openai.com/index/designing-agents-to-resist-prompt-injection/"
+      },
+      {
+        "label": "OWASP LLM01 Prompt Injection",
+        "url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/"
+      },
+      {
+        "label": "AgentDojo benchmark",
+        "url": "https://github.com/ethz-spylab/agentdojo"
+      }
+    ]
+  },
+  {
+    "risk_id": "SRA-002",
+    "title": "Approval quality becomes the weak link in high-frequency agent workflows",
+    "thesis": "As agents ask users to approve more actions, the key risk shifts from whether approval exists to whether approval is specific, understandable, timely, scoped, and resistant to rubber-stamping.",
+    "likelihood": 5,
+    "impact": 4,
+    "novelty": 4,
+    "actionability": 5,
+    "confidence": "high",
+    "affected_surfaces": ["tool_calling", "connector", "computer_use", "governance"],
+    "why_might_be_under_instrumented": "Approval logs often record presence or absence of consent, but not consent quality. A user can technically approve an action while misunderstanding the source connector, destination connector, data sensitivity, reversibility, or bundled consequences.",
+    "likely_failure_path": "A workflow repeatedly prompts for approvals. The user habituates to generic confirmations. A high-impact action is approved because the UI does not make the boundary crossing salient enough.",
+    "early_indicators": [
+      "High approval acceptance rates for sensitive actions.",
+      "Approvals bundled across several tool calls.",
+      "Approvals shown after the model has already selected the action path.",
+      "User reversals, support complaints, or manual remediation after approved actions."
+    ],
+    "safe_probe": "Run synthetic workflows with specific versus generic approval text and score whether reviewers can correctly identify source, destination, reversibility, and sensitive fields.",
+    "decision_needed": "Adopt approval-quality metrics, not just approval-presence metrics, for high-severity traces.",
+    "sources": [
+      {
+        "label": "OpenAI Operator System Card",
+        "url": "https://openai.com/index/operator-system-card/"
+      },
+      {
+        "label": "OpenAI link safety and browser safeguards",
+        "url": "https://openai.com/index/keeping-you-safe-while-clicking-links-in-chatgpt/"
+      },
+      {
+        "label": "OpenAI introducing ChatGPT agent",
+        "url": "https://openai.com/index/introducing-chatgpt-agent/"
+      }
+    ]
+  },
+  {
+    "risk_id": "SRA-003",
+    "title": "Persistent memory turns one-shot injection into delayed state corruption",
+    "thesis": "Memory and shared workspace context can convert an input-handling failure into a delayed, hard-to-debug state-integrity failure.",
+    "likelihood": 4,
+    "impact": 5,
+    "novelty": 5,
+    "actionability": 4,
+    "confidence": "medium",
+    "affected_surfaces": ["memory", "retrieval", "multi_agent", "governance"],
+    "why_might_be_under_instrumented": "Many prompt-injection tests measure immediate compliance or refusal. Memory failures can appear later, after the original context is gone, when a poisoned memory item is retrieved as trusted personalization or institutional knowledge.",
+    "likely_failure_path": "Untrusted content causes an agent to write a persistent preference, fact, contact, workflow rule, or access assumption. A later session retrieves that memory and uses it to justify a bad action.",
+    "early_indicators": [
+      "Memory writes sourced from untrusted content without provenance or expiry.",
+      "A later agent run treats memory as higher-authority than the current user task.",
+      "Memory items that change tool-routing, contact-routing, or data-sharing behavior.",
+      "No review trigger when memory influences a sensitive action."
+    ],
+    "safe_probe": "Use synthetic memory writes with harmless but false routing instructions, then test whether later workflows preserve provenance and require corroboration before acting.",
+    "decision_needed": "Create a memory-integrity risk class with write-channel, source authority, expiry, corroboration, retrieval trigger, and sensitive-action influence fields.",
+    "sources": [
+      {
+        "label": "OpenAI memory controls",
+        "url": "https://help.openai.com/en/articles/8590148-memory-faq"
+      },
+      {
+        "label": "Practical memory injection attack against LLM agents",
+        "url": "https://arxiv.org/html/2503.03704"
+      },
+      {
+        "label": "Memory poisoning in LLM agents",
+        "url": "https://arxiv.org/html/2606.04329"
+      }
+    ]
+  },
+  {
+    "risk_id": "SRA-004",
+    "title": "Customer-built agent stacks create a runtime gap model-side safeguards cannot fully see",
+    "thesis": "As AgentKit, APIs, MCP-style tools, and custom enterprise agents spread, some of the most important risks may live in customer runtime architecture rather than in model behavior alone.",
+    "likelihood": 4,
+    "impact": 5,
+    "novelty": 4,
+    "actionability": 4,
+    "confidence": "medium",
+    "affected_surfaces": ["tool_calling", "connector", "workflow_automation", "governance"],
+    "why_might_be_under_instrumented": "A model provider can improve models, policies, and platform defaults, but deployed customer agents may combine tools, permissions, secrets, logs, retrieval, and approval UX in ways that are invisible or only partially visible to central telemetry.",
+    "likely_failure_path": "A customer deploys an agent with broad scopes, weak tool isolation, sensitive retrieval, and permissive approvals. A public prompt-injection or tool-chain issue becomes a real-world incident outside the platform's own product boundary.",
+    "early_indicators": [
+      "Support or incident reports involving third-party tool combinations.",
+      "High-risk tool scopes without comparable approval or audit controls.",
+      "External agents using OpenAI models but nonstandard logging, eval, or rollback paths.",
+      "Developer examples that encourage capability before safety instrumentation."
+    ],
+    "safe_probe": "Build a local mock customer agent with retrieval plus two tools and show how trace requirements reveal missing ownership, approval, and evidence fields.",
+    "decision_needed": "Define a minimum recommended agent-risk telemetry contract for customer-built agents: tool call, source provenance, approval text, data class, external side effect, and incident export.",
+    "sources": [
+      {
+        "label": "OpenAI AgentKit",
+        "url": "https://openai.com/index/introducing-agentkit/"
+      },
+      {
+        "label": "OpenAI in-house data agent with MCP",
+        "url": "https://openai.com/index/inside-our-in-house-data-agent/"
+      },
+      {
+        "label": "CSA MAESTRO framework",
+        "url": "https://cloudsecurityalliance.org/blog/2025/02/06/agentic-ai-threat-modeling-framework-maestro"
+      },
+      {
+        "label": "MITRE ATLAS",
+        "url": "https://atlas.mitre.org/"
+      }
+    ]
+  },
+  {
+    "risk_id": "SRA-005",
+    "title": "Multi-agent delegation can erase provenance, intent, and accountability",
+    "thesis": "When agents hand work to other agents or shared workspace agents, the original user intent, policy context, source authority, and approval state can degrade across handoffs.",
+    "likelihood": 4,
+    "impact": 4,
+    "novelty": 5,
+    "actionability": 4,
+    "confidence": "medium",
+    "affected_surfaces": ["multi_agent", "workflow_automation", "connector", "governance"],
+    "why_might_be_under_instrumented": "Single-agent traces may not capture whether Agent B inherited Agent A's authority correctly, whether a delegated task is still within the original user's intent, or who owns residual risk after handoff.",
+    "likely_failure_path": "A workspace agent delegates a subtask or consumes another agent's output. The downstream agent acts on a compressed task summary that omits restrictions, source trust, or approval conditions.",
+    "early_indicators": [
+      "Delegated subtasks without original user-intent hashes or policy constraints.",
+      "Agent outputs reused as trusted inputs without source tier or confidence.",
+      "Permission expansion across handoffs.",
+      "No single owner for residual risk after a multi-agent workflow."
+    ],
+    "safe_probe": "Create a two-agent synthetic workflow where the first agent receives a constraint and the second agent only receives a summary. Test whether the constraint survives handoff.",
+    "decision_needed": "Treat delegation as a first-class risk surface with provenance, authority transfer, task-scope, and ownership fields.",
+    "sources": [
+      {
+        "label": "OpenAI workspace agents",
+        "url": "https://openai.com/index/introducing-workspace-agents-in-chatgpt/"
+      },
+      {
+        "label": "Agentic AI risk profile",
+        "url": "https://crfm.stanford.edu/2025/11/18/ai-agentic-risk-profile.html"
+      },
+      {
+        "label": "Agentic AI security survey",
+        "url": "https://arxiv.org/html/2601.00131v1"
+      }
+    ]
+  },
+  {
+    "risk_id": "SRA-006",
+    "title": "Eval blind spots let unsafe trajectories pass safe-looking final answers",
+    "thesis": "For agentic systems, safety evaluation can fail if it scores only the final response or task success while ignoring unauthorized intermediate actions, state changes, benchmark gaming, or invisible side effects.",
+    "likelihood": 4,
+    "impact": 4,
+    "novelty": 4,
+    "actionability": 5,
+    "confidence": "high",
+    "affected_surfaces": ["tool_calling", "computer_use", "governance", "final_output"],
+    "why_might_be_under_instrumented": "Benchmarks often need clean scalar scores, while real agentic safety depends on traces: what the agent read, believed, called, changed, and asked approval for. A final answer can look safe after an unsafe tool trajectory.",
+    "likely_failure_path": "An agent completes a task and produces a harmless final summary, but it used out-of-scope data, clicked a risky link, leaked metadata, or manipulated environment state along the way.",
+    "early_indicators": [
+      "Eval success criteria that do not inspect tool arguments or environment deltas.",
+      "Reward-hacking behaviors that satisfy the metric without satisfying the user's real goal.",
+      "Safety monitors that trigger only after the final answer is drafted.",
+      "No distinction between detected-before-side-effect and detected-after-side-effect."
+    ],
+    "safe_probe": "Convert a benchmark-like run into a trace that records tool trajectory, environment delta, approval state, and first useful intervention point.",
+    "decision_needed": "Make benchmark-to-trace conversion part of the risk-analysis operating loop, especially for high-autonomy and tool-rich systems.",
+    "sources": [
+      {
+        "label": "Inspect AI",
+        "url": "https://inspect.aisi.org.uk/"
+      },
+      {
+        "label": "AgentHarm",
+        "url": "https://arxiv.org/abs/2410.09024"
+      },
+      {
+        "label": "AgentDojo",
+        "url": "https://arxiv.org/abs/2406.13352"
+      },
+      {
+        "label": "METR reward hacking",
+        "url": "https://metr.org/blog/2025-06-05-recent-reward-hacking/"
+      }
+    ]
+  },
+  {
+    "risk_id": "SRA-007",
+    "title": "Real-time voice and browser agents increase social-engineering realism",
+    "thesis": "As agents move into voice, browser, and real-time assistance, social-engineering risk shifts from static text generation to interactive persuasion, identity confusion, and action scaffolding.",
+    "likelihood": 3,
+    "impact": 5,
+    "novelty": 4,
+    "actionability": 3,
+    "confidence": "medium",
+    "affected_surfaces": ["ingress", "computer_use", "tool_calling", "final_output"],
+    "why_might_be_under_instrumented": "Text-only red-team suites may miss conversational pacing, interruption, authority cues, identity ambiguity, urgency, and the way browser or phone-adjacent actions can scaffold scams without containing obviously disallowed text.",
+    "likely_failure_path": "A user or attacker uses an agent to rehearse or execute a persuasive real-time interaction that stays below obvious policy thresholds but materially improves manipulation or fraud success.",
+    "early_indicators": [
+      "Requests that combine persuasion, urgency, identity claims, and external action.",
+      "Voice/browser tasks involving payments, account recovery, hiring, legal, medical, or credential contexts.",
+      "Long conversations where risk accumulates gradually rather than in one explicit harmful request.",
+      "Generated scripts that avoid explicit fraud language while increasing pressure or deception."
+    ],
+    "safe_probe": "Use benign synthetic scenarios to test whether agents identify urgency, identity ambiguity, and vulnerable-user cues across multi-turn interactions.",
+    "decision_needed": "Add interaction-level social-engineering patterns to agentic risk traces, not just content-level scam categories.",
+    "sources": [
+      {
+        "label": "OpenAI gpt-realtime",
+        "url": "https://openai.com/index/introducing-gpt-realtime/"
+      },
+      {
+        "label": "OpenAI link safety",
+        "url": "https://openai.com/index/keeping-you-safe-while-clicking-links-in-chatgpt/"
+      },
+      {
+        "label": "Microsoft agentic AI threat taxonomy",
+        "url": "https://www.microsoft.com/en-us/security/blog/2025/10/29/defining-agentic-ai-threats-a-comprehensive-threat-taxonomy-and-mitigation-framework-for-autonomous-agentic-systems/"
+      }
+    ]
+  }
+]

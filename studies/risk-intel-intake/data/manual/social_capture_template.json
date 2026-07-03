@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Public jailbreak motif or agent failure pattern",
+    "source_name": "Curated social stream",
+    "source_url": "https://example.com/source-post",
+    "observed_at": "2026-07-02",
+    "summary": "Safe abstraction of the public claim. Do not paste a harmful jailbreak prompt here.",
+    "risk_hypothesis": "What risk pattern might this imply?",
+    "affected_surfaces": ["ingress", "final_output"],
+    "risk_categories": ["jailbreak_motif", "refusal_instability"],
+    "novelty": 4,
+    "actionability": 3,
+    "source_reliability": 2,
+    "raw_detail_policy": "do_not_reproduce",
+    "safe_probe_description": "Harmless probe idea that tests the abstract failure pattern.",
+    "safe_reproduction": "Use benign placeholders and avoid reproducing the original exploit string."
+  }
+]

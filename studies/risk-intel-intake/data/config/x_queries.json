@@ -1,0 +1,35 @@
+[
+  {
+    "name": "agentic-risk-jailbreaks",
+    "query": "(jailbreak OR prompt injection OR indirect prompt injection OR AI agent security OR LLM guardrail) -is:retweet lang:en",
+    "max_results": 10,
+    "risk_categories": [
+      "jailbreak_motif",
+      "prompt_injection",
+      "guardrail_gap"
+    ],
+    "affected_surfaces": [
+      "ingress",
+      "retrieval",
+      "tool_calling",
+      "final_output"
+    ],
+    "raw_detail_policy": "do_not_reproduce"
+  },
+  {
+    "name": "tool-use-agent-failures",
+    "query": "(AI agent tool use OR function calling OR connector agent OR computer use agent) (failure OR exploit OR unsafe OR overreach) -is:retweet lang:en",
+    "max_results": 10,
+    "risk_categories": [
+      "tool_overreach",
+      "function_call_malfunction",
+      "connector_data_boundary"
+    ],
+    "affected_surfaces": [
+      "tool_calling",
+      "connector",
+      "trajectory"
+    ],
+    "raw_detail_policy": "summarize_only"
+  }
+]

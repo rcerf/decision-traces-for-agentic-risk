@@ -1,0 +1,37 @@
+[
+  {
+    "delta_id": "DELTA-001",
+    "name": "Persistent memory",
+    "surfaces": ["memory", "retrieval"],
+    "new_authorities": ["write_personal_context", "retrieve_personal_context"],
+    "description": "Agents can preserve user or workspace context across sessions."
+  },
+  {
+    "delta_id": "DELTA-002",
+    "name": "Tool-rich workspace agents",
+    "surfaces": ["tool_calling", "connector", "workflow_automation"],
+    "new_authorities": ["external_side_effect", "cross_connector_action"],
+    "description": "Agents can combine files, email, calendar, browser, and business tools."
+  },
+  {
+    "delta_id": "DELTA-003",
+    "name": "Open-weight model release",
+    "surfaces": ["governance", "model_release"],
+    "new_authorities": ["fork", "fine_tune", "redistribute"],
+    "description": "A model can be downloaded, adapted, and redistributed outside the original provider boundary."
+  },
+  {
+    "delta_id": "DELTA-004",
+    "name": "Local risk monitoring",
+    "surfaces": ["endpoint", "telemetry"],
+    "new_authorities": ["observe_prompt", "observe_output", "submit_aggregate_signal"],
+    "description": "A local monitor can classify risk events and optionally submit anonymized telemetry."
+  },
+  {
+    "delta_id": "DELTA-005",
+    "name": "Agent-on-agent adversarial probing",
+    "surfaces": ["multi_agent", "adversarial_probe", "telemetry", "governance"],
+    "new_authorities": ["generate_attack_variants", "probe_model_boundaries", "transfer_findings_across_models"],
+    "description": "Agents can autonomously probe other agents or models and search for weaknesses without direct human prompt-by-prompt utilization."
+  }
+]

@@ -1,0 +1,111 @@
+[
+  {
+    "node_id": "NODE-001",
+    "mode": "observer",
+    "patch_channel": "stable",
+    "privacy": {
+      "source_auditable": true,
+      "raw_upload_enabled": false,
+      "aggregate_only": true,
+      "private_data_leaves_device": false
+    },
+    "events": [
+      {
+        "event_id": "EVT-001",
+        "category": "connector_scope_ambiguity",
+        "signature_hit": true,
+        "entropy": 2.3,
+        "top_choice_margin": 0.06,
+        "sample_disagreement": 0.62,
+        "model_disagreement": 0.55,
+        "external_side_effect": true,
+        "red_team_generated": false,
+        "patch_version": "2026.07.02-stable",
+        "contains_raw_content": false,
+        "contains_private_data": false
+      }
+    ]
+  },
+  {
+    "node_id": "NODE-002",
+    "mode": "red_team_volunteer",
+    "patch_channel": "preview",
+    "privacy": {
+      "source_auditable": true,
+      "raw_upload_enabled": false,
+      "aggregate_only": true,
+      "private_data_leaves_device": false
+    },
+    "events": [
+      {
+        "event_id": "EVT-002",
+        "category": "agent_on_agent_probe",
+        "signature_hit": false,
+        "entropy": 3.1,
+        "top_choice_margin": 0.04,
+        "sample_disagreement": 0.74,
+        "model_disagreement": 0.71,
+        "external_side_effect": false,
+        "red_team_generated": true,
+        "patch_version": "2026.07.02-preview",
+        "contains_raw_content": false,
+        "contains_private_data": false
+      }
+    ]
+  },
+  {
+    "node_id": "NODE-003",
+    "mode": "patch_preview",
+    "patch_channel": "preview",
+    "privacy": {
+      "source_auditable": true,
+      "raw_upload_enabled": false,
+      "aggregate_only": true,
+      "private_data_leaves_device": false
+    },
+    "events": [
+      {
+        "event_id": "EVT-003",
+        "category": "benign_uncertainty",
+        "signature_hit": false,
+        "entropy": 1.4,
+        "top_choice_margin": 0.29,
+        "sample_disagreement": 0.18,
+        "model_disagreement": 0.22,
+        "external_side_effect": false,
+        "red_team_generated": false,
+        "patch_version": "2026.07.02-preview",
+        "contains_raw_content": false,
+        "contains_private_data": false
+      }
+    ]
+  },
+  {
+    "node_id": "NODE-004",
+    "mode": "observer",
+    "patch_channel": "stable",
+    "privacy": {
+      "source_auditable": true,
+      "raw_upload_enabled": false,
+      "aggregate_only": true,
+      "private_data_leaves_device": false
+    },
+    "events": [
+      {
+        "event_id": "EVT-004",
+        "category": "approval_quality_failure",
+        "signature_hit": true,
+        "entropy": 1.9,
+        "top_choice_margin": 0.09,
+        "sample_disagreement": 0.51,
+        "model_disagreement": 0.40,
+        "external_side_effect": true,
+        "red_team_generated": false,
+        "patch_version": "2026.07.02-stable",
+        "contains_raw_content": false,
+        "contains_private_data": false
+      }
+    ]
+  }
+]
+

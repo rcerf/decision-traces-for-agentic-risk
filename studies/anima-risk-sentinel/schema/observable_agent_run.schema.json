@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/observable_agent_run.schema.json",
+  "title": "Observable Agent Run",
+  "type": "object",
+  "required": ["run_id", "model", "task", "permissions", "ingress", "trajectory", "drafts", "final"],
+  "properties": {
+    "run_id": { "type": "string" },
+    "model": { "type": "string" },
+    "task": { "type": "string" },
+    "permissions": {
+      "type": "object",
+      "properties": {
+        "connectors": { "type": "array", "items": { "type": "string" } },
+        "allowed_tools": { "type": "array", "items": { "type": "string" } },
+        "sensitive_actions": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "ingress": {
+      "type": "object",
+      "properties": {
+        "user_prompt": { "type": "string" },
+        "retrieved_context": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["source", "trust", "content"],
+            "properties": {
+              "source": { "type": "string" },
+              "trust": { "type": "string", "enum": ["trusted", "user", "untrusted"] },
+              "content": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "trajectory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["step", "type"],
+        "properties": {
+          "step": { "type": "integer" },
+          "type": { "type": "string", "enum": ["plan", "tool_call", "tool_output", "handoff", "approval", "telemetry"] },
+          "content": { "type": "string" },
+          "tool": { "type": "string" },
+          "connector": { "type": "string" },
+          "args": { "type": "object" },
+          "external_side_effect": { "type": "boolean" },
+          "approval": {
+            "type": "object",
+            "properties": {
+              "required": { "type": "boolean" },
+              "received": { "type": "boolean" }
+            }
+          },
+          "telemetry": {
+            "type": "object",
+            "properties": {
+              "tool_choice_entropy": { "type": "number" },
+              "top_choice_margin": { "type": "number" },
+              "sample_disagreement": { "type": "number" }
+            }
+          }
+        }
+      }
+    },
+    "drafts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["stage", "content"],
+        "properties": {
+          "stage": { "type": "string" },
+          "content": { "type": "string" }
+        }
+      }
+    },
+    "final": {
+      "type": "object",
+      "required": ["content", "destination"],
+      "properties": {
+        "content": { "type": "string" },
+        "destination": { "type": "string" }
+      }
+    },
+    "expected": {
+      "type": "object",
+      "properties": {
+        "risk_present": { "type": "boolean" },
+        "categories": { "type": "array", "items": { "type": "string" } },
+        "first_detection_stage": { "type": "string" }
+      }
+    }
+  }
+}

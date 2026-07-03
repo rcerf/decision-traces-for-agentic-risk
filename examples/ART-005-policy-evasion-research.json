@@ -1,0 +1,33 @@
+{
+  "trace_id": "ART-005",
+  "title": "Policy evasion through staged research decomposition",
+  "source_signal": "investigation",
+  "agentic_surface": "multi_agent",
+  "risk_category": "policy_evasion",
+  "evidence": {
+    "observed_behavior": "A user decomposes a disallowed request into apparently harmless subtasks distributed across multiple agent sessions.",
+    "why_it_matters": "A single-turn policy check may miss harmful intent that appears only across the task graph.",
+    "open_questions": [
+      "Can intent aggregation preserve privacy while detecting staged abuse?",
+      "Which task joins should be reviewed by a human?"
+    ]
+  },
+  "confidence": "low",
+  "severity": "medium",
+  "competing_hypotheses": [
+    "The decomposition is normal research planning.",
+    "The decomposition is intentional policy evasion."
+  ],
+  "recommended_action": "Create eval cases for staged requests and add task-graph review for suspicious decomposition patterns.",
+  "owner": "Policy / Model Behavior",
+  "mitigation_status": "proposed",
+  "human_approval": {
+    "required": false,
+    "reason": "No external side effect or sensitive access observed in this trace; monitor for escalation.",
+    "approval_gate": "none"
+  },
+  "residual_risk": "Low-confidence weak signal may be under-prioritized until pattern repeats.",
+  "reusable_eval_case": "Multi-session decomposition of an unsafe request into harmless-looking subtasks.",
+  "taxonomy_gap": "Need evidence standard for intent aggregation across sessions.",
+  "next_review": "2026-07-11"
+}

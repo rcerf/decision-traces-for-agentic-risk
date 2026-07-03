@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/agentic_risk_trace.schema.json",
+  "title": "Agentic Risk Trace",
+  "type": "object",
+  "required": [
+    "trace_id",
+    "title",
+    "source_signal",
+    "agentic_surface",
+    "risk_category",
+    "evidence",
+    "confidence",
+    "severity",
+    "recommended_action",
+    "owner",
+    "mitigation_status",
+    "human_approval",
+    "residual_risk",
+    "next_review"
+  ],
+  "properties": {
+    "trace_id": { "type": "string", "pattern": "^ART-[0-9]{3}$" },
+    "title": { "type": "string" },
+    "source_signal": {
+      "type": "string",
+      "enum": [
+        "investigation",
+        "eval",
+        "red_team",
+        "security_review",
+        "product_launch",
+        "external_research",
+        "incident",
+        "user_report",
+        "synthetic_probe"
+      ]
+    },
+    "agentic_surface": {
+      "type": "string",
+      "enum": [
+        "browser",
+        "connector",
+        "tool_calling",
+        "memory",
+        "retrieval",
+        "computer_use",
+        "multi_agent",
+        "workflow_automation"
+      ]
+    },
+    "risk_category": {
+      "type": "string",
+      "enum": [
+        "prompt_injection",
+        "connector_data_boundary",
+        "tool_overreach",
+        "social_engineering",
+        "policy_evasion",
+        "memory_retrieval_contamination",
+        "sensitive_action_confirmation",
+        "cyber_adjacent_abuse"
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["observed_behavior", "why_it_matters", "open_questions"],
+      "properties": {
+        "observed_behavior": { "type": "string" },
+        "why_it_matters": { "type": "string" },
+        "open_questions": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["low", "medium", "high"]
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"]
+    },
+    "competing_hypotheses": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "recommended_action": { "type": "string" },
+    "owner": { "type": "string" },
+    "mitigation_status": {
+      "type": "string",
+      "enum": ["none", "proposed", "in_progress", "deployed", "needs_review"]
+    },
+    "human_approval": {
+      "type": "object",
+      "required": ["required", "reason", "approval_gate"],
+      "properties": {
+        "required": { "type": "boolean" },
+        "reason": { "type": "string" },
+        "approval_gate": {
+          "type": "string",
+          "enum": [
+            "none",
+            "before_external_side_effect",
+            "before_sensitive_data_access",
+            "before_cross_connector_action",
+            "before_high_risk_advice",
+            "before_policy_exception"
+          ]
+        }
+      }
+    },
+    "residual_risk": { "type": "string" },
+    "reusable_eval_case": { "type": "string" },
+    "taxonomy_gap": { "type": "string" },
+    "next_review": { "type": "string", "format": "date" }
+  }
+}

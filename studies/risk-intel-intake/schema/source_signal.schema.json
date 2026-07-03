@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/source_signal.schema.json",
+  "title": "Risk Intelligence Source Signal",
+  "type": "object",
+  "required": [
+    "signal_id",
+    "title",
+    "source_tier",
+    "source_type",
+    "source_name",
+    "source_url",
+    "observed_at",
+    "summary",
+    "risk_hypothesis",
+    "affected_surfaces",
+    "risk_categories",
+    "evidence_status",
+    "novelty",
+    "actionability",
+    "source_reliability",
+    "raw_detail_policy",
+    "proposed_probe"
+  ],
+  "properties": {
+    "signal_id": { "type": "string", "pattern": "^SIG-[A-Z0-9-]+$" },
+    "title": { "type": "string" },
+    "source_tier": { "type": "integer", "minimum": 0, "maximum": 3 },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "standard",
+        "research",
+        "benchmark",
+        "incident_database",
+        "journalism",
+        "policy",
+        "social",
+        "security_blog",
+        "system_card"
+      ]
+    },
+    "source_name": { "type": "string" },
+    "source_url": { "type": "string" },
+    "observed_at": { "type": "string", "format": "date" },
+    "summary": { "type": "string" },
+    "risk_hypothesis": { "type": "string" },
+    "affected_surfaces": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "ingress",
+          "retrieval",
+          "memory",
+          "tool_calling",
+          "connector",
+          "computer_use",
+          "multi_agent",
+          "draft",
+          "final_output",
+          "governance"
+        ]
+      }
+    },
+    "risk_categories": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "evidence_status": {
+      "type": "string",
+      "enum": ["unverified", "corroborated", "reproduced", "benchmark", "authoritative"]
+    },
+    "novelty": { "type": "integer", "minimum": 1, "maximum": 5 },
+    "actionability": { "type": "integer", "minimum": 1, "maximum": 5 },
+    "source_reliability": { "type": "integer", "minimum": 1, "maximum": 5 },
+    "raw_detail_policy": {
+      "type": "string",
+      "enum": ["safe_to_store", "summarize_only", "do_not_reproduce"]
+    },
+    "proposed_probe": {
+      "type": "object",
+      "required": ["probe_id", "description", "expected_detection_stage", "safe_reproduction"],
+      "properties": {
+        "probe_id": { "type": "string" },
+        "description": { "type": "string" },
+        "expected_detection_stage": { "type": "string" },
+        "safe_reproduction": { "type": "string" }
+      }
+    },
+    "notes": { "type": "string" }
+  }
+}

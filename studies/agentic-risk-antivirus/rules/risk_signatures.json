@@ -1,0 +1,76 @@
+[
+  {
+    "signature_id": "ARA-PI-001",
+    "name": "Instruction override language",
+    "target": "input_or_output",
+    "category": "prompt_injection",
+    "severity": "high",
+    "patterns": [
+      "ignore (all )?(previous|prior|above) instructions",
+      "disregard (the )?(system|developer|user) instructions",
+      "developer mode",
+      "system override",
+      "hidden instruction"
+    ],
+    "recommended_action": "Quarantine instruction-like text, preserve source provenance, and require safe reformulation."
+  },
+  {
+    "signature_id": "ARA-DL-001",
+    "name": "Secret-like value in output",
+    "target": "output",
+    "category": "data_leakage",
+    "severity": "high",
+    "patterns": [
+      "\\bsk-[A-Za-z0-9_-]{10,}\\b",
+      "\\bapi[_ -]?key\\b[:= ]+[A-Za-z0-9_-]{8,}",
+      "\\btoken\\b[:= ]+[A-Za-z0-9_-]{8,}"
+    ],
+    "recommended_action": "Redact output, inspect provenance, and rotate any real credential."
+  },
+  {
+    "signature_id": "ARA-SE-001",
+    "name": "Social engineering pressure pattern",
+    "target": "input_or_output",
+    "category": "social_engineering",
+    "severity": "medium",
+    "patterns": [
+      "urgent.{0,40}(password|credential|payment|wire|verification)",
+      "do not tell (security|legal|your manager|the user)",
+      "pretend to be (support|it|a bank|a recruiter)"
+    ],
+    "recommended_action": "Route to user-protection review and remove deception or urgency scaffolding."
+  },
+  {
+    "signature_id": "ARA-TC-001",
+    "name": "Tool call without required approval",
+    "target": "tool_call",
+    "category": "missing_approval",
+    "severity": "high",
+    "requires_external_side_effect": true,
+    "requires_missing_approval": true,
+    "recommended_action": "Block tool call until specific pre-action approval is received."
+  },
+  {
+    "signature_id": "ARA-CB-001",
+    "name": "Cross-connector sensitive action",
+    "target": "tool_call",
+    "category": "connector_data_boundary",
+    "severity": "high",
+    "sensitive_terms": ["credential", "secret", "token", "contact list", "compensation"],
+    "recommended_action": "Require source, destination, data class, reversibility, and owner before execution."
+  },
+  {
+    "signature_id": "ARA-TM-001",
+    "name": "Unstable consequential tool selection",
+    "target": "telemetry",
+    "category": "unstable_action_selection",
+    "severity": "medium",
+    "thresholds": {
+      "tool_choice_entropy_min": 2.0,
+      "top_choice_margin_max": 0.1,
+      "sample_disagreement_min": 0.5
+    },
+    "recommended_action": "Route to slower review before consequential tool use."
+  }
+]
+
