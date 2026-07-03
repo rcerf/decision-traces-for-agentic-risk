@@ -29,7 +29,7 @@ Recent independent work applies the same bottom-up systems approach to agentic A
 Founder / Independent AI Systems Researcher | 2025 - Present
 
 - Conducting independent agentic-risk prototyping focused on deployment-time governance, structured public-model behavior observation, decision records, and human-in-the-loop control patterns.
-- Built a private exploratory model-observation system inside Sovereign OS, including a 44-model behavior registry, 118 benchmark result files behind a bootstrap-validated cross-model analysis, and a separate 7-model / 96-segment cross-judge generalization study; added a public-safe evidence appendix rather than publishing raw logs.
+- Built a private exploratory model-observation system inside Sovereign OS, including a 44-model behavior registry, 118 benchmark result files behind a bootstrap-validated cross-model analysis, and a separate 7 Claude-family-judge / 96-segment cross-judge agreement study; added a public-safe evidence appendix rather than publishing raw logs.
 - Built and prototyped Sovereign OS, a personal cognition harness exploring model routing, retrieval, memory, privacy boundaries, decision traces, approval states, and correction/override loops for AI-assisted work.
 - Designed decision-trace concepts for making AI-assisted decisions inspectable: capturing assumptions, evidence, uncertainty, mitigations, human approvals, overrides, outcomes, and residual risk.
 - Prototyped governance primitives for agentic workflows, including risk-tiered approval gates, override tracking, memory review states, strict eval scoring, and a prompt-injection monitor benchmarked against four public injection datasets (16,578 labeled samples) with the recall/precision tradeoff recorded rather than hidden.

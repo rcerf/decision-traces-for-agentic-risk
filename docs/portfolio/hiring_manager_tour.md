@@ -44,9 +44,14 @@ Add:
 5. `reports/agentic_risk_antivirus_assessment.md`
 6. `studies/anima-risk-sentinel/README.md`
 7. `studies/risk-intel-intake/README.md`
-8. `studies/model-risk-sota/working_paper_outline_negative_space_risk_discovery.md`
+8. `studies/benchmark-adapter/README.md`
+9. `ops/agentic_risk_operating_metrics.md`
+10. `studies/model-risk-sota/working_paper_outline_negative_space_risk_discovery.md`
 
 What to look for:
+
+- The benchmark adapter converts real AgentDojo run records into decision traces that pass the same validator as the hand-authored examples, with raw exploit text omitted by design — the "next credibility jump" the SOTA memo named, now built.
+- The operating-metrics page defines coverage, ownership, decision latency, closure, and freshness with a paired "how it lies / how to catch it" for each.
 
 - The controlled pre-release probe concept shows how an internal team could separate adversarial discovery, defensive controls, and analyst adjudication before release.
 - The opt-in signal-sharing concept shows how users might contribute aggregate risk signals while keeping private data local, pending real privacy/security validation.
@@ -59,7 +64,7 @@ What to look for:
 - The local monitor module demonstrates transparent signatures, local detection, and aggregate-only export.
 - The risk-delta matrix turns capability changes into safe probe candidates.
 - The ablation shows why final-output review is insufficient for agentic systems.
-- The SOTA backlog shows the next credibility jump: benchmark-to-trace ingestion, framework crosswalks, threat-model fields, and control-effectiveness metrics.
+- The SOTA backlog names the remaining credibility jumps: framework crosswalks, threat-model fields, and control-effectiveness metrics. Benchmark-to-trace ingestion, previously on this list, is now built in `studies/benchmark-adapter/`.
 
 ## 45-Minute Review
 
@@ -74,7 +79,10 @@ python3 studies/agentic-risk-antivirus/src/local_risk_monitor.py studies/agentic
 python3 studies/risk-delta-matrix/src/generate_matrix.py --output reports/risk_delta_matrix.md
 python3 studies/patch-loop-case/src/render_patch_loop.py --output reports/agent_on_agent_patch_loop_case.md
 python3 studies/open-sentinel-network/src/network_triage.py --output reports/open_sentinel_network_assessment.md
+python3 studies/benchmark-adapter/src/agentdojo_to_trace.py studies/benchmark-adapter/data/agentdojo_runs --start-index 8 --out-dir studies/benchmark-adapter/output
+python3 demo/validate_traces.py studies/benchmark-adapter/output
 python3 -m unittest discover -s tests
+python3 -m unittest discover -s studies/benchmark-adapter/tests
 python3 -m unittest discover -s studies/anima-risk-sentinel/tests
 python3 -m unittest discover -s studies/risk-intel-intake/tests
 python3 -m unittest discover -s studies/strategic-risk-assessment/tests
@@ -98,7 +106,7 @@ What to look for:
 ## What This Demonstrates
 
 - I can structure ambiguous risk signals into decision-ready artifacts.
-- Rick understands that agentic risk lives across the run lifecycle, not only in final output.
+- I understand that agentic risk lives across the run lifecycle, not only in final output.
 - I can connect public research, incidents, journalism, and social weak signals into a safe probe backlog.
 - I can build a small runnable system rather than only write a memo.
 - I can pressure-test my own artifact against current public research and name the missing pieces without overclaiming.

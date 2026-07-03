@@ -569,7 +569,7 @@ The current verified summary is modest:
 
 - a 44-model behavior registry;
 - 118 benchmark result files behind that registry;
-- a separate 7-model / 96-segment cross-judge generalization study;
+- a separate 7 Claude-family-judge / 96-segment cross-judge agreement study (strong within-family agreement; cross-family generalization not established);
 - this repo's 7 public-safe synthetic decision traces.
 
 See `docs/portfolio/model_observation_evidence_appendix.md`, and `docs/portfolio/injection_sentinel_benchmark_results.md` for measured results — including the unflattering false-positive rate — from benchmarking a private injection monitor against four public datasets.
@@ -658,13 +658,16 @@ studies/risk-delta-matrix/
 studies/patch-loop-case/
 studies/open-sentinel-network/
 studies/agentic-risk-antivirus/
+studies/benchmark-adapter/
 studies/model-risk-sota/
 
 docs/from_product_risk_to_agentic_risk.md
 docs/source_notes.md
 docs/portfolio/
 docs/portfolio/model_observation_evidence_appendix.md
+docs/portfolio/injection_sentinel_benchmark_results.md
 docs/portfolio/rick_cerf_resume.md
 ops/current_operating_picture_prompt_injection.md
+ops/agentic_risk_operating_metrics.md
 ops/risk_register_template.csv
 ```

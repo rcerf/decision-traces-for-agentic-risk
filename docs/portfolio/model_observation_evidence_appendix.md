@@ -21,7 +21,7 @@ A later draft also used "391 saved model-behavior measurements." I retired that 
 
 The defensible wording is:
 
-> Built a private exploratory model-observation system inside Sovereign OS, including a 44-model behavior registry, 118 benchmark result files behind a bootstrap-validated cross-model analysis, and a separate 7-model / 96-segment cross-judge generalization study.
+> Built a private exploratory model-observation system inside Sovereign OS, including a 44-model behavior registry, 118 benchmark result files behind a bootstrap-validated cross-model analysis, and a separate 7 Claude-family-judge / 96-segment cross-judge agreement study.
 
 That wording is less flashy and more credible. It shows the real shape of the work without pretending the experiments are more mature than they are.
 
