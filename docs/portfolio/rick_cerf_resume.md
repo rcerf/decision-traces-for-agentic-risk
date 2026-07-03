@@ -33,7 +33,7 @@ Founder / Independent AI Systems Researcher | 2025 - Present
 - Built and prototyped Sovereign OS, a personal cognition harness exploring model routing, retrieval, memory, privacy boundaries, decision traces, approval states, and correction/override loops for AI-assisted work.
 - Designed decision-trace concepts for making AI-assisted decisions inspectable: capturing assumptions, evidence, uncertainty, mitigations, human approvals, overrides, outcomes, and residual risk.
 - Prototyped governance primitives for agentic workflows, including risk-tiered approval gates, override tracking, memory review states, strict eval scoring, and a prompt-injection monitor benchmarked against four public injection datasets (16,578 labeled samples) with the recall/precision tradeoff recorded rather than hidden.
-- Built Decision Traces for Agentic Risk, a compact public-safe toy alpha showing how weak signals can become safe probes, synthetic traces, patch candidates, owners, approval gates, and residual monitors.
+- Built Decision Traces for Agentic Risk, a compact public-safe working prototype showing how weak signals can become safe probes, synthetic traces, patch candidates, owners, approval gates, and residual monitors.
 
 ### Meta
 

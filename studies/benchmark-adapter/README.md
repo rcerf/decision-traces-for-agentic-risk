@@ -60,9 +60,11 @@ python3 demo/validate_traces.py studies/benchmark-adapter/output
 python3 -m unittest discover -s studies/benchmark-adapter/tests
 ```
 
-`output/ART-008-agentdojo.json` and `output/ART-009-agentdojo.json` are committed
-examples of the result (both are successful-injection runs, so both are high
-severity with an external-side-effect approval gate).
+`output/ART-008..ART-010-agentdojo.json` are committed examples: ART-008 and
+ART-009 are successful-injection runs (high severity, external-side-effect
+approval gate); ART-010 is a defended run (low severity, no gate, kept as a
+benign control). Both branches are shown so a reviewer does not have to run the
+code to see that the defended case works.
 
 ## What this does and does not show
 

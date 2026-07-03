@@ -29,8 +29,16 @@ class TestAdapter(unittest.TestCase):
         self.traces = adapter.convert_dir(RUNS_DIR, start_index=8, next_review="2026-07-30")
 
     def test_produces_traces(self) -> None:
-        # 3 fixtures, 1 baseline -> 2 risk traces
-        self.assertEqual(len(self.traces), 2)
+        # 4 fixtures, 1 baseline -> 3 risk traces (2 succeeded + 1 defended)
+        self.assertEqual(len(self.traces), 3)
+
+    def test_defended_run_is_low_and_ungated(self) -> None:
+        lows = [t for t in self.traces if t["severity"] == "low"]
+        self.assertEqual(len(lows), 1, "expected exactly one defended (low-severity) trace")
+        t = lows[0]
+        self.assertFalse(t["human_approval"]["required"])
+        self.assertEqual(t["human_approval"]["approval_gate"], "none")
+        self.assertEqual(t["mitigation_status"], "in_progress")
 
     def test_all_traces_validate(self) -> None:
         for t in self.traces:

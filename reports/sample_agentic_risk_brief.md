@@ -1,6 +1,6 @@
 # Sample Agentic Risk Brief
 
-Date: 2026-07-02  
+Date: 2026-07-02 (generation date; the brief is a static synthetic sample, not a live-updated assessment)  
 Scope: Synthetic traces and staged sentinel runs in this repo  
 Status: Working-paper prototype, not production measurement
 
