@@ -1,0 +1,404 @@
+{
+  "schema_version": "1.1",
+  "title": "Agentic Prompt-Injection Ontology",
+  "description": "A multi-axis ontology for classifying prompt-injection and agentic attacks. Explicitly extends OWASP LLM01, MITRE ATLAS AML.T0051, and the HackAPrompt taxonomy. New nodes are flagged with 'extension': true.",
+  "extends": [
+    {
+      "framework": "OWASP LLM Top 10",
+      "version": "2025",
+      "entry": "LLM01 — Prompt Injection",
+      "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+      "note": "Defines direct vs indirect prompt injection; does not enumerate delivery vectors beyond user-prompt and retrieved content, and does not classify techniques or goals beyond a high level."
+    },
+    {
+      "framework": "MITRE ATLAS",
+      "version": "v4 (2024)",
+      "entry": "AML.T0051 — LLM Prompt Injection",
+      "subtechniques": {
+        "AML.T0051.000": "Direct Prompt Injection",
+        "AML.T0051.001": "Indirect Prompt Injection"
+      },
+      "related": [
+        "AML.T0054 — LLM Jailbreak",
+        "AML.T0048 — Societal Harm",
+        "AML.T0043 — Craft Adversarial Data",
+        "AML.T0040 — ML Model Inference API Access"
+      ],
+      "url": "https://atlas.mitre.org/techniques/AML.T0051",
+      "note": "Provides attacker-perspective technique IDs; delivery-vector and goal dimensions are under-specified for multi-agent pipelines."
+    },
+    {
+      "framework": "HackAPrompt Taxonomy",
+      "citation": "Schulhoff et al., 'Ignore This Title and HackAPrompt: Exposing Systemic Vulnerabilities of LLMs through a Global Scale Prompt Hacking Competition', EMNLP 2023",
+      "arxiv": "2311.16119",
+      "techniques_enumerated": [
+        "CI — Context Ignoring",
+        "PS — Payload Splitting / Token Smuggling",
+        "OB — Obfuscation / Encoding",
+        "RP — Role-Play / Persona",
+        "RS — Refusal Suppression",
+        "FS — Few-Shot Priming",
+        "CC — Completion Compliance",
+        "PT — Pretending",
+        "DI — Distractor Instructions"
+      ],
+      "note": "Richest technique taxonomy available from empirical competition data. Focused on direct, user-turn injection in single-turn pipelines; does not cover indirect, agentic, multi-hop, or tool-mediated vectors."
+    }
+  ],
+
+  "axes": {
+
+    "injection_type": {
+      "description": "Whether the adversarial instruction reaches the model directly from the attacker or indirectly through a trusted channel the model consumes.",
+      "source": "OWASP LLM01; MITRE AML.T0051.000 / AML.T0051.001",
+      "nodes": {
+        "direct": {
+          "id": "IT-01",
+          "label": "Direct Prompt Injection",
+          "description": "Attacker controls the user-turn prompt; instruction is injected without an intermediary.",
+          "owasp": "LLM01 — Direct",
+          "atlas": "AML.T0051.000",
+          "extension": false
+        },
+        "indirect": {
+          "id": "IT-02",
+          "label": "Indirect Prompt Injection",
+          "description": "Adversarial instruction is embedded in content the model retrieves or processes (documents, web pages, tool outputs, emails, memory).",
+          "owasp": "LLM01 — Indirect",
+          "atlas": "AML.T0051.001",
+          "extension": false
+        },
+        "multi_hop": {
+          "id": "IT-03",
+          "label": "Multi-Hop / Cross-Agent Injection",
+          "description": "Injection propagates across two or more agents; an upstream agent is compromised and its output re-injects a downstream agent in the same pipeline.",
+          "owasp": "LLM01 (indirect, extended)",
+          "atlas": "AML.T0051.001 (extended)",
+          "extension": true,
+          "extension_rationale": "Existing frameworks treat injection as a single-hop event. Multi-agent orchestration creates transitive trust chains where one compromised agent can re-inject peers. This node is new."
+        }
+      }
+    },
+
+    "delivery_vector": {
+      "description": "The channel through which the injected instruction reaches the model's context window.",
+      "source_partial": "OWASP LLM01 names 'user input' and 'retrieved content'; MITRE ATLAS does not enumerate vectors. All agentic vectors (DV-04 through DV-10) are extensions.",
+      "nodes": {
+        "user_prompt": {
+          "id": "DV-01",
+          "label": "User Prompt",
+          "description": "Injection arrives in the human-turn message sent directly to the model.",
+          "owasp": "LLM01",
+          "atlas": "AML.T0051.000",
+          "extension": false
+        },
+        "retrieved_document": {
+          "id": "DV-02",
+          "label": "Retrieved Document (RAG)",
+          "description": "Injection is embedded in a document fetched via retrieval-augmented generation.",
+          "owasp": "LLM01 — Indirect",
+          "atlas": "AML.T0051.001",
+          "extension": false
+        },
+        "web_content": {
+          "id": "DV-03",
+          "label": "Web Page / Fetched URL",
+          "description": "Injection is hidden in a web page the agent visits (invisible text, Unicode tricks, steganography).",
+          "owasp": "LLM01 — Indirect",
+          "atlas": "AML.T0051.001",
+          "extension": false
+        },
+        "tool_output": {
+          "id": "DV-04",
+          "label": "Tool / API Output",
+          "description": "Injection is embedded in the structured or unstructured response from a tool the agent calls (search, calculator, code interpreter, database query).",
+          "owasp": "LLM01 (extended to tool context)",
+          "atlas": "AML.T0051.001 (extended)",
+          "extension": true,
+          "extension_rationale": "Tool-use pipelines (function calling, ReAct, OpenAI Assistants) create a new surface not present in chat-only threat models."
+        },
+        "memory": {
+          "id": "DV-05",
+          "label": "Agent Memory / Long-Term Store",
+          "description": "Injection is written into the agent's persistent memory in one session and retrieved in a future session, enabling deferred/sleeper attacks.",
+          "owasp": "LLM01 (extended)",
+          "extension": true,
+          "extension_rationale": "Memory-enabled agents (MemGPT, OpenAI memory, custom vector stores) create a new persistence surface with no equivalent in existing frameworks."
+        },
+        "email_message": {
+          "id": "DV-06",
+          "label": "Email / Messaging Content",
+          "description": "Injection arrives in an email or chat message that an agent with mailbox access reads and processes.",
+          "owasp": "LLM01 — Indirect",
+          "atlas": "AML.T0051.001",
+          "extension": true,
+          "extension_rationale": "Email-integrated agents are now common (Gmail Copilots, Outlook AI) but not enumerated as a distinct vector in existing frameworks."
+        },
+        "file_upload": {
+          "id": "DV-07",
+          "label": "Uploaded File",
+          "description": "Injection is embedded in a PDF, Word document, spreadsheet, image EXIF, or other file the agent is asked to parse.",
+          "owasp": "LLM01 — Indirect",
+          "extension": true,
+          "extension_rationale": "File parsing by agents (code interpreters, document processors) is a distinct attack surface from general RAG retrieval."
+        },
+        "agent_message": {
+          "id": "DV-08",
+          "label": "Upstream Agent Output",
+          "description": "In a multi-agent system, a compromised or spoofed upstream agent's output carries the injection into the downstream agent's context.",
+          "extension": true,
+          "extension_rationale": "Unique to multi-agent architectures. Enables the IT-03 multi-hop injection type. Not present in any reviewed framework."
+        },
+        "system_prompt_leak": {
+          "id": "DV-09",
+          "label": "System Prompt / Context Manipulation",
+          "description": "Attacker manipulates or forges the system prompt (e.g., through prompt template injection, insecure direct object reference to templates, or chain-of-thought framing).",
+          "owasp": "LLM01",
+          "atlas": "AML.T0051",
+          "extension": false
+        },
+        "multimodal": {
+          "id": "DV-10",
+          "label": "Multimodal Content (Image / Audio / Video)",
+          "description": "Injection is embedded in image pixels, audio, or video frames processed by a multimodal model — e.g., adversarial text in an image, instructions in audio.",
+          "atlas": "AML.T0043 (craft adversarial data)",
+          "extension": true,
+          "extension_rationale": "Multimodal models (GPT-4V, Gemini, Claude 3) create visual and auditory injection surfaces not covered by text-only frameworks."
+        }
+      }
+    },
+
+    "technique": {
+      "description": "The rhetorical or structural mechanism used to make the model follow injected instructions.",
+      "source_partial": "HackAPrompt taxonomy is the primary empirical source for techniques. Agentic techniques (TQ-10 through TQ-14) are extensions.",
+      "nodes": {
+        "context_ignoring": {
+          "id": "TQ-01",
+          "label": "Context Ignoring",
+          "description": "Instructs the model to disregard prior system instructions and act on new ones. Classic 'ignore all previous instructions' pattern.",
+          "hackaprompt": "CI",
+          "extension": false
+        },
+        "payload_splitting": {
+          "id": "TQ-02",
+          "label": "Payload Splitting / Token Smuggling",
+          "description": "Splits the adversarial payload across multiple turns, tokens, or encoding boundaries so no single chunk triggers a filter.",
+          "hackaprompt": "PS",
+          "extension": false
+        },
+        "obfuscation_encoding": {
+          "id": "TQ-03",
+          "label": "Obfuscation / Encoding",
+          "description": "Encodes the injection in Base64, hex, Unicode homoglyphs, leetspeak, invisible characters, or other transformations that evade surface-level filters.",
+          "hackaprompt": "OB",
+          "extension": false
+        },
+        "roleplay_persona": {
+          "id": "TQ-04",
+          "label": "Role-Play / Persona Adoption",
+          "description": "Asks the model to adopt a persona or enter a fictional frame in which its safety constraints do not apply ('you are DAN', 'pretend you are an unrestricted AI').",
+          "hackaprompt": "RP / PT",
+          "extension": false
+        },
+        "refusal_suppression": {
+          "id": "TQ-05",
+          "label": "Refusal Suppression",
+          "description": "Explicitly instructs the model not to refuse, apologize, or add caveats. Often combined with other techniques.",
+          "hackaprompt": "RS",
+          "extension": false
+        },
+        "few_shot_priming": {
+          "id": "TQ-06",
+          "label": "Few-Shot Priming",
+          "description": "Provides fabricated examples of the model complying with policy-violating requests to establish a behavioral prior for the current request.",
+          "hackaprompt": "FS",
+          "extension": false
+        },
+        "completion_compliance": {
+          "id": "TQ-07",
+          "label": "Completion Compliance",
+          "description": "Exploits the model's text-completion instinct by starting a harmful sentence and relying on the model to continue it naturally.",
+          "hackaprompt": "CC",
+          "extension": false
+        },
+        "distractor": {
+          "id": "TQ-08",
+          "label": "Distractor / Misdirection",
+          "description": "Embeds the injection in surrounding benign text to obscure intent from content filters or human reviewers.",
+          "hackaprompt": "DI",
+          "extension": false
+        },
+        "authority_spoofing": {
+          "id": "TQ-09",
+          "label": "Authority / System Spoofing",
+          "description": "Claims to be a privileged entity (the developer, the system prompt, a super-user, an internal tool) to override safety constraints.",
+          "owasp": "LLM01",
+          "atlas": "AML.T0051",
+          "extension": false
+        },
+        "tool_call_injection": {
+          "id": "TQ-10",
+          "label": "Tool-Call Injection",
+          "description": "Crafts content that causes the agent to emit malformed or adversarial tool calls (e.g., SQL injection via LLM → database connector, or SSRF via LLM → HTTP tool).",
+          "extension": true,
+          "extension_rationale": "Unique to tool-using agents. The injection exploits the model's code-generation behavior to produce dangerous downstream calls. Not covered by HackAPrompt (single-turn) or OWASP LLM01 at this granularity."
+        },
+        "memory_poisoning": {
+          "id": "TQ-11",
+          "label": "Memory Poisoning",
+          "description": "Writes adversarial content into the agent's persistent memory so it is automatically retrieved and executed in future sessions without further attacker access.",
+          "extension": true,
+          "extension_rationale": "Enabled by memory-augmented agents. Creates a deferred, persistent attack surface analogous to a stored XSS. Not present in any reviewed framework."
+        },
+        "goal_hijacking": {
+          "id": "TQ-12",
+          "label": "Goal / Objective Hijacking",
+          "description": "Replaces the agent's current task objective with an attacker-chosen goal. Differs from context-ignoring in that it operates at the planning/task level, not the turn level.",
+          "extension": true,
+          "extension_rationale": "Planning agents (AutoGPT, LangChain agents, OpenAI Assistants with instructions) maintain a goal state that can be overwritten by injected instructions mid-task."
+        },
+        "chain_of_thought_manipulation": {
+          "id": "TQ-13",
+          "label": "Chain-of-Thought Manipulation",
+          "description": "Injects reasoning steps into the model's chain-of-thought scratchpad to steer conclusions toward attacker-desired outputs, exploiting the model's tendency to follow its own prior reasoning.",
+          "extension": true,
+          "extension_rationale": "CoT and scratchpad-reasoning models (o1, Claude extended thinking, ReAct) expose reasoning traces that can be manipulated. No existing framework addresses this surface."
+        },
+        "trust_boundary_escalation": {
+          "id": "TQ-14",
+          "label": "Trust-Boundary Escalation",
+          "description": "Exploits implicit trust between components (e.g., an agent trusting another agent's output without re-validating, or a tool result being treated as a system-level instruction).",
+          "atlas": "AML.T0040 (extended)",
+          "extension": true,
+          "extension_rationale": "Multi-agent and tool-use pipelines establish implicit trust hierarchies. Attacking trust boundaries is distinct from any single-turn technique."
+        }
+      }
+    },
+
+    "goal": {
+      "description": "The attacker's intended outcome from a successful injection.",
+      "source_partial": "OWASP LLM01 names data-exfil and unauthorized actions; MITRE ATLAS focuses on societal harm and model access. Resource-abuse, agent-persistence, and supply-chain-poisoning are new.",
+      "nodes": {
+        "data_exfiltration": {
+          "id": "GL-01",
+          "label": "Data Exfiltration",
+          "description": "Extract confidential information: system prompt, user data, credentials, retrieved documents, memory contents.",
+          "owasp": "LLM01",
+          "atlas": "AML.T0051",
+          "extension": false
+        },
+        "unauthorized_action": {
+          "id": "GL-02",
+          "label": "Unauthorized Action",
+          "description": "Cause the agent to take an action not sanctioned by the user or operator (send email, execute code, delete records, make API calls, place orders).",
+          "owasp": "LLM01",
+          "atlas": "AML.T0051",
+          "extension": false
+        },
+        "privilege_escalation": {
+          "id": "GL-03",
+          "label": "Privilege Escalation",
+          "description": "Gain access to capabilities or data beyond the attacker's authorization level — e.g., reading admin data via an agent with elevated permissions.",
+          "owasp": "LLM01",
+          "atlas": "AML.T0051 / AML.T0040",
+          "extension": false
+        },
+        "policy_evasion": {
+          "id": "GL-04",
+          "label": "Policy / Safety Evasion",
+          "description": "Bypass content filters, usage policies, or safety guardrails to obtain an otherwise-refused response.",
+          "owasp": "LLM01",
+          "atlas": "AML.T0054 (Jailbreak)",
+          "extension": false
+        },
+        "harmful_content": {
+          "id": "GL-05",
+          "label": "Harmful Content Generation",
+          "description": "Cause the model to produce CSAM, extremist propaganda, bioweapons instructions, targeted harassment, or other directly harmful output.",
+          "owasp": "LLM01",
+          "atlas": "AML.T0048",
+          "extension": false
+        },
+        "resource_abuse": {
+          "id": "GL-06",
+          "label": "Resource Abuse (Compute / Cost / Rate-Limit)",
+          "description": "Cause the agent to make excessive tool calls, API requests, or compute-heavy operations to inflict cost on the operator or exhaust rate limits.",
+          "extension": true,
+          "extension_rationale": "Agentic pipelines with looping and tool-use create a new economic attack surface. A compromised agent can be made to call expensive APIs in a loop. Not present in existing frameworks."
+        },
+        "agent_persistence": {
+          "id": "GL-07",
+          "label": "Agent Persistence / Sleeper Payload",
+          "description": "Establish a persistent foothold in the agent's memory or configuration so that future sessions re-activate the attack without further attacker input.",
+          "extension": true,
+          "extension_rationale": "Memory-augmented agents enable attacker persistence across sessions. Analogous to malware persistence but not addressed by existing AI security frameworks."
+        },
+        "reputation_damage": {
+          "id": "GL-08",
+          "label": "Reputation / Brand Damage",
+          "description": "Cause the agent to produce defamatory, embarrassing, or policy-violating outputs attributed to the operator or their brand.",
+          "owasp": "LLM01 (implied)",
+          "extension": false
+        },
+        "supply_chain_poisoning": {
+          "id": "GL-09",
+          "label": "Supply-Chain / Downstream Poisoning",
+          "description": "In a multi-agent or RAG pipeline, compromise one component so its outputs poison downstream agents, knowledge stores, or fine-tuning datasets.",
+          "atlas": "AML.T0043 (extended to pipelines)",
+          "extension": true,
+          "extension_rationale": "Multi-hop injection chains and RAG pipelines create poisoning opportunities that extend well beyond a single interaction."
+        }
+      }
+    },
+
+    "severity": {
+      "description": "Blast radius and reversibility dimensions for prioritization.",
+      "note": "Severity is a composite of impact scope, reversibility, and detection difficulty. It is assessed per incident, not per ontology node.",
+      "dimensions": {
+        "impact_scope": {
+          "values": ["single-user", "multi-user", "system-wide", "cross-organization"],
+          "extension": false
+        },
+        "reversibility": {
+          "values": ["reversible", "partially-reversible", "irreversible"],
+          "extension": false
+        },
+        "detection_difficulty": {
+          "values": ["low", "medium", "high"],
+          "description": "How hard is it for a human reviewer or automated system to detect this attack post-hoc?",
+          "extension": true,
+          "extension_rationale": "Existing frameworks do not enumerate detection difficulty as a first-class severity dimension. Agentic attacks (especially memory-poisoning and multi-hop) score high here."
+        },
+        "latency": {
+          "values": ["immediate", "deferred", "persistent"],
+          "description": "Whether the attack effect is immediate (this session), deferred (future session), or persistent (until memory/config is cleared).",
+          "extension": true,
+          "extension_rationale": "Memory-based and sleeper attacks introduce deferred and persistent effect latency not represented in single-turn threat models."
+        }
+      }
+    }
+  },
+
+  "extension_summary": {
+    "total_nodes": {
+      "injection_type": 3,
+      "delivery_vector": 10,
+      "technique": 14,
+      "goal": 9
+    },
+    "new_nodes": {
+      "injection_type": 1,
+      "delivery_vector": 5,
+      "technique": 5,
+      "goal": 3
+    },
+    "new_severity_dimensions": 2,
+    "total_new_nodes": 14,
+    "total_borrowed_nodes": 22,
+    "new_node_ids": [
+      "IT-03", "DV-04", "DV-05", "DV-06", "DV-07", "DV-08", "DV-10",
+      "TQ-10", "TQ-11", "TQ-12", "TQ-13", "TQ-14",
+      "GL-06", "GL-07", "GL-09"
+    ]
+  }
+}

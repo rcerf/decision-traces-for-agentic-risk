@@ -1,6 +1,6 @@
 # Rick Cerf
 
-Ex-Meta Product Risk Lead | Agentic AI Risk, Trust & Safety, Decision Traces
+Ex-Meta Product Risk Program Manager | Agentic AI Risk, Trust & Safety, Decision Traces
 
 LinkedIn: https://www.linkedin.com/in/rcerf
 
@@ -8,7 +8,7 @@ Portfolio: https://github.com/rcerf/decision-traces-for-agentic-risk
 
 ## Summary
 
-Product-risk operator with 13+ years across product risk, monetization, privacy, regulated connected-device launches, ML/data platforms, performance evaluation, dashboards/KPIs, and hands-on agentic-risk prototyping; trained in formal reasoning at Princeton and software engineering at Hack Reactor.
+Product-risk operator with 13+ years across product risk, monetization, privacy, regulated connected-device launches, ML/data platforms, performance evaluation, dashboards/KPIs, and hands-on agentic-risk prototyping; trained in ethics and American pragmatism at Princeton and software engineering at Hack Reactor.
 
 Built and operated cross-functional risk-review systems that treated individual policy/risk decisions as a corpus: organizing ambiguous product, legal, policy, privacy, and platform signals into taxonomies, owners, mitigations, reusable precedent, launch-readiness decisions, and residual-risk follow-up.
 
@@ -26,7 +26,7 @@ Recent independent work applies the same bottom-up systems approach to agentic A
 
 ### Le Cerf Inc.
 
-Founder / Independent AI Systems Researcher | 2025 - Present
+Founder — independent work on agentic risk, evals, model-behavior, deployment governance | 2026 - Present
 
 - Conducting independent agentic-risk prototyping focused on deployment-time governance, structured public-model behavior observation, decision records, and human-in-the-loop control patterns.
 - Built a private exploratory model-observation system inside Sovereign OS, including a 44-model behavior registry, 118 benchmark result files behind a bootstrap-validated cross-model analysis, and a separate 7 Claude-family-judge / 96-segment cross-judge agreement study; added a public-safe evidence appendix rather than publishing raw logs.
@@ -75,6 +75,6 @@ Product Manager, Platform; Product Manager, Consumer | 2014 - 2018
 
 ## Education
 
-- B.A., Religion | Princeton University; coursework/training emphasized philosophy, interpretation, logic, and structured argument.
+- B.A., Religion | Princeton University; coursework/training emphasized ethics, American pragmatism, interpretation, and structured argument.
 - Certificate, Web App Development, JavaScript | Hack Reactor.
 - Certificate, Management and Entrepreneurship | London School of Economics.

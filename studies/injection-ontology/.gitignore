@@ -1,0 +1,8 @@
+# Raw corpus cache — never commit attack/jailbreak strings
+corpus_cache/
+*.parquet
+*.arrow
+*.jsonl.gz
+__pycache__/
+*.pyc
+.cache/

@@ -1,0 +1,12 @@
+# InjecAgent raw test case cache — contains attacker payloads; do NOT commit.
+data/injecagent/
+
+# Any other local data caches
+data/*.jsonl
+data/*.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/

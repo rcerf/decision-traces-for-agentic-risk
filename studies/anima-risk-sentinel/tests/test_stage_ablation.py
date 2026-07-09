@@ -24,13 +24,18 @@ class StageAblationTest(unittest.TestCase):
         self.assertLess(final_only["detected_runs"], full_pipeline["detected_runs"])
         self.assertLess(final_only["total_events"], full_pipeline["total_events"])
 
-    def test_trajectory_condition_catches_connector_boundary(self):
+    def test_trajectory_condition_catches_missing_approval(self):
+        # Updated after connector-boundary bug fix: run-003 has connector="drive"
+        # which IS in permissions.connectors, so the old substring-based
+        # connector_data_boundary no longer fires.  The actual violation —
+        # sensitive action without approval — is captured as missing_approval.
         report = stage_ablation.run_ablation(ROOT / "data" / "runs")
         trajectory = report["conditions"]["ingress_trajectory_final"]["per_run"]["RUN-003"]
 
         self.assertTrue(trajectory["risk_present"])
         self.assertEqual(trajectory["first_detection_stage"], "trajectory")
-        self.assertIn("connector_data_boundary", trajectory["categories"])
+        self.assertIn("missing_approval", trajectory["categories"])
+        self.assertNotIn("connector_data_boundary", trajectory["categories"])
 
 
 if __name__ == "__main__":

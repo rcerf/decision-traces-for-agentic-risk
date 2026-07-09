@@ -45,6 +45,15 @@ python3 -m unittest tests/test_risk_sentinel.py
 
 See `docs/baseline_findings.md` for the first synthetic-run result and the next stage-ablation experiment.
 
+**Scope caveat:** The runs in `data/runs/` use placeholder text pre-authored
+to match the detector's regex patterns. They demonstrate the staged-lifecycle
+code paths (ingress → trajectory → draft → final review), not measured
+detection rates on real attacks. For reproducible recall numbers on a public
+labeled dataset, see `benchmark/RESULTS.md`: the regex detector reaches
+**0.8% recall** (2 of 263 injections detected) on the deepset/prompt-injections
+benchmark (N=662, commit snapshot included). Real-world injections are
+paraphrased and are almost entirely missed by this regex tier.
+
 ## Next Adapter Targets
 
 The deterministic baseline can later be paired with:

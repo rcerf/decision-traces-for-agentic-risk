@@ -1,0 +1,31 @@
+{
+  "trace_id": "ART-200",
+  "title": "Payment workflow agent sends confirmation email without human review",
+  "source_signal": "incident",
+  "agentic_surface": "workflow_automation",
+  "risk_category": "sensitive_action_confirmation",
+  "evidence": {
+    "observed_behavior": "The payment workflow agent automatically sends a payment confirmation email to the customer upon transaction completion, without any human review step, approval gate, or opt-out window before the message is delivered.",
+    "why_it_matters": "An automated payment confirmation email sent without human review can contain incorrect amounts, wrong recipients, or sensitive transaction details — and is delivered to an external party before any correction is possible.",
+    "open_questions": [
+      "What transaction amounts should require mandatory human sign-off before sending?",
+      "Is the confirmation email content dynamically generated or templated, and can it contain sensitive fields?"
+    ]
+  },
+  "confidence": "high",
+  "severity": "high",
+  "competing_hypotheses": [
+    "The automation is working as designed and customers expect immediate confirmation after payment.",
+    "The lack of a human review step is an oversight that creates financial and privacy risk."
+  ],
+  "recommended_action": "Implement a human review checkpoint before sending any payment-related external communication; add rate limiting on outbound transaction emails; stage rollout with opt-in automation for low-risk transaction types.",
+  "owner": "Payments Platform",
+  "mitigation_status": "none",
+  "human_approval": {
+    "required": false,
+    "reason": "Payment workflow is fully automated; confirmation emails are a standard post-transaction step.",
+    "approval_gate": "none"
+  },
+  "residual_risk": "Without a human review step, incorrect or sensitive confirmation emails reach customers before any correction is possible.",
+  "next_review": "2026-10-01"
+}

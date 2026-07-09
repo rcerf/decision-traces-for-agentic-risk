@@ -6,7 +6,9 @@ The point of the repo is not to claim that I solved agentic risk. I have not. Th
 
 This README is the primary artifact. A reader should be able to scroll this page and understand the idea without opening a dozen files. The supporting files are included for verification, examples, and deeper inspection.
 
-This repo uses synthetic examples only. It does not contain private Meta, JUUL, OpenAI, or personal data.
+Most examples are synthetic, but the repo also includes one decision trace built from a real, publicly-documented incident (`examples/real_incidents/`), a reproducible benchmark of the detector against a real public dataset (`benchmark/`), and a labeled eval set with a runnable scorer (`evals/`). It contains no private Meta, JUUL, OpenAI, or personal data.
+
+This repo was built quickly, with AI coding assistance. The operating model, the claims, and the honesty calls are mine; the code runs and the tests pass, which is the credential — not the authorship method.
 
 ## Table Of Contents
 
@@ -70,7 +72,10 @@ If you only have a few minutes, read this README and skim these anchors:
 | What is the public-safe trace format? | `examples/ART-007-public-benchmark-indirect-injection.json` and `schema/agentic_risk_trace.schema.json` |
 | How should I interpret the independent AI work? | `docs/portfolio/thought_traces_not_claims.md` |
 | What evidence exists behind the independent model-observation work? | `docs/portfolio/model_observation_evidence_appendix.md` |
-| What are the limits? | [What This Does Not Prove](#what-this-does-not-prove) |
+| Can I reproduce a number myself? | `benchmark/RESULTS.md` — run `python benchmark/run_injection_benchmark.py` |
+| Is there a real (non-synthetic) case? | `examples/real_incidents/` — the 2024 Slack AI indirect-injection disclosure |
+| Is there a real eval set? | `evals/` — labeled cases, a runnable scorer, and its measured blind spots |
+| What are the limits? | `LIMITATIONS.md` (every caveat on one page) and [What This Does Not Prove](#what-this-does-not-prove) |
 
 The most important caveat: this is a portfolio prototype. It is meant to show how I reason, structure risk, preserve uncertainty, and turn weak signals into reviewable operating artifacts. It is not a production detector or a claim that I have solved agentic risk.
 
@@ -278,7 +283,9 @@ The repository includes seven synthetic traces:
 | ART-006 | Memory/retrieval contamination | Medium |
 | ART-007 | Public-benchmark-inspired indirect prompt injection | High |
 
-The validator checks schema shape and flags high or critical traces that lack deployed mitigation. That is intentionally simple. It is not a judge model. It is a small demonstration of how structured risk work can become inspectable and enforceable.
+In addition to these seven synthetic traces, `examples/real_incidents/` contains ART-R01, a trace built from a **real, publicly-documented incident** — the 2024 Slack AI indirect prompt-injection / data-exfiltration disclosure — with its genuinely open questions (was it exploited in the wild? what did the patch change?) preserved rather than invented. It shows the same format applied to material I did not author.
+
+The validator checks each trace against the JSON Schema in `schema/` and flags high or critical traces that lack deployed mitigation. That is intentionally simple. It is not a judge model. It is a small demonstration of how structured risk work can become inspectable and enforceable.
 
 ## Lifecycle Monitoring
 
@@ -304,7 +311,7 @@ This prototype therefore evaluates risk across four stages:
 | Draft | Emerging answer, unsafe action proposals, sensitive content, confidence language | Some failures become visible before final response |
 | Final | Completed response before it reaches the next consumer | Final review is still useful, but should not be the only control |
 
-In the current synthetic ablation, final-only review detects 1 of 3 risky runs. Adding ingress and trajectory monitoring detects all 3 risky runs. This is not a production measurement; it is a demonstration of the operating point: the first useful intervention often happens before final output.
+In the current synthetic ablation, final-only review detects 1 of 3 risky runs; adding ingress and trajectory monitoring detects all 3. **Honesty note:** these fixtures use placeholder strings written to match the detector's own patterns, so this illustrates the *operating concept* (catch risk before final output) — it is not a measured detection rate. For the detector's real-data performance — a sobering **0.8% recall** on the public deepset dataset — see `benchmark/RESULTS.md`.
 
 ## Negative-Space Risk Discovery
 
@@ -569,10 +576,10 @@ The current verified summary is modest:
 
 - a 44-model behavior registry;
 - 118 benchmark result files behind that registry;
-- a separate 7 Claude-family-judge / 96-segment cross-judge agreement study (strong within-family agreement; cross-family generalization not established);
+- a separate 7 Claude-family-judge / 96-segment cross-judge agreement study (strong within-family agreement, κ≈0.95; cross-family generalization **not** established, κ≈0.20);
 - this repo's 7 public-safe synthetic decision traces.
 
-See `docs/portfolio/model_observation_evidence_appendix.md`, and `docs/portfolio/injection_sentinel_benchmark_results.md` for measured results — including the unflattering false-positive rate — from benchmarking a private injection monitor against four public datasets.
+See `docs/portfolio/model_observation_evidence_appendix.md`, and `docs/portfolio/injection_sentinel_benchmark_results.md` for measured results — including the unflattering false-positive rate — from benchmarking a private injection monitor against four public datasets. See also `benchmark/` for a fully reproducible benchmark of the *public* detector on real data (0.8% recall — run it yourself). Existing tools — Lakera Guard, Meta Prompt-Guard, NeMo Guardrails, Rebuff — address parts of this space; this repo does not benchmark against them.
 
 ## How To Run The Prototype
 
@@ -581,6 +588,9 @@ Basic validation:
 ```bash
 python3 demo/validate_traces.py examples
 python3 -m unittest tests/test_critical_actions_require_approval.py
+
+python3 benchmark/run_injection_benchmark.py   # reproducible real-data injection benchmark
+python3 evals/run_eval.py                       # labeled eval set + scorer blind-spot report
 ```
 
 Selected study runs:
@@ -638,7 +648,12 @@ The README is designed to stand alone. The files below are available for deeper 
 README.md
 schema/agentic_risk_trace.schema.json
 examples/*.json
+examples/real_incidents/          # ART-R01: real 2024 Slack AI incident
 evals/rubric.md
+evals/cases/                      # labeled eval cases
+evals/run_eval.py                 # runnable scorer + blind-spot report
+evals/human_correction_demo/      # before/after human-in-the-loop demo
+benchmark/                        # reproducible deepset benchmark (fetch + run + RESULTS.md)
 demo/validate_traces.py
 tests/test_critical_actions_require_approval.py
 

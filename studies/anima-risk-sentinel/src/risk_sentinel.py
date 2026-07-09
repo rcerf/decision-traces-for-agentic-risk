@@ -138,7 +138,15 @@ def analyze_trajectory(run: dict) -> list[RiskEvent]:
     permissions = run.get("permissions", {})
     allowed_tools = set(permissions.get("allowed_tools", []))
     sensitive_actions = set(permissions.get("sensitive_actions", []))
-    task_text = normalize(run.get("task", "") + " " + run.get("ingress", {}).get("user_prompt", ""))
+    # Build a structured connector allowlist from permissions rather than doing
+    # a substring search in concatenated task text (which produces false
+    # negatives when the connector name like "email" appears anywhere in the
+    # text, and false positives for short names that collide with unrelated
+    # words).
+    _connectors_raw = permissions.get("connectors")
+    allowed_connectors: set[str] | None = (
+        set(_connectors_raw) if _connectors_raw is not None else None
+    )
 
     for step in run.get("trajectory", []):
         step_type = step.get("type")
@@ -188,14 +196,23 @@ def analyze_trajectory(run: dict) -> list[RiskEvent]:
                     )
                 )
 
-            if connector and connector not in task_text:
+            # Connector boundary: flag when the connector is not in the
+            # structured permissions.connectors allowlist.  The old substring
+            # test (`connector not in task_text`) was unreliable — a connector
+            # named "email" would pass the check whenever "email" appeared
+            # anywhere in the concatenated task string, masking real violations;
+            # and very short connector names could match spuriously.
+            connector_out_of_scope = (
+                allowed_connectors is not None and connector not in allowed_connectors
+            )
+            if connector and connector_out_of_scope:
                 if any(term in args_text for term in SENSITIVE_TERMS) or tool in sensitive_actions:
                     events.append(
                         event(
                             "trajectory",
                             "connector_data_boundary",
                             "high",
-                            "Tool call appears to cross connector or scope boundary",
+                            "Tool call uses a connector not in the permitted-connectors allowlist",
                             f"task={run.get('task')}; tool={tool}; connector={connector}; args={step.get('args', {})}",
                             "Ask for explicit scope confirmation and log connector boundary crossing.",
                         )

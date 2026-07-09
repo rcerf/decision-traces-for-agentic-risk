@@ -20,7 +20,7 @@
     "next_review"
   ],
   "properties": {
-    "trace_id": { "type": "string", "pattern": "^ART-[0-9]{3}$" },
+    "trace_id": { "type": "string", "pattern": "^ART-(R[0-9]{2}|[0-9]{3})$", "description": "ART-NNN for synthetic traces; ART-RNN for traces built from real documented incidents" },
     "title": { "type": "string" },
     "source_signal": {
       "type": "string",

@@ -12,3 +12,10 @@ build/
 .env
 .env.*
 
+# Large regenerable ML caches (not source of truth — regenerate via the experiment scripts)
+studies/internal-signal-probe/artifacts/features_*.pkl
+benchmark/artifacts/*.joblib
+
+
+# large regenerable dataset snapshots (fetch, do not commit)
+benchmark/data/xtram1_injection_*.jsonl

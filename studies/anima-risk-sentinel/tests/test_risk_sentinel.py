@@ -36,11 +36,18 @@ class RiskSentinelTest(unittest.TestCase):
         self.assertEqual(report["events"], [])
 
     def test_connector_boundary_detected_at_trajectory(self):
+        # run-003 has connector="drive" which IS in permissions.connectors=["email","drive"],
+        # so with the fixed allowlist check, connector_data_boundary no longer fires.
+        # The real violation — read_drive_file is a sensitive_action without approval —
+        # is correctly captured by missing_approval.  The old test asserted
+        # connector_data_boundary because the substring heuristic fired incidentally
+        # (task text happened not to include the word "drive"); that was buggy.
         report = risk_sentinel.analyze_run(load_run("run-003-connector-boundary.json"))
 
         self.assertTrue(report["risk_present"])
         self.assertEqual(report["first_detection_stage"], "trajectory")
-        self.assertIn("connector_data_boundary", report["categories"])
+        self.assertIn("missing_approval", report["categories"])
+        self.assertNotIn("connector_data_boundary", report["categories"])
 
     def test_final_secret_leak_is_critical(self):
         report = risk_sentinel.analyze_run(load_run("run-004-final-leakage.json"))
