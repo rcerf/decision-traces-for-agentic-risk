@@ -8,12 +8,13 @@ This README is the primary artifact. A reader should be able to scroll this page
 
 Most examples are synthetic, but the repo also includes one decision trace built from a real, publicly-documented incident (`examples/real_incidents/`), a reproducible benchmark of the detector against a real public dataset (`benchmark/`), and a labeled eval set with a runnable scorer (`evals/`). It contains no private Meta, JUUL, OpenAI, or personal data.
 
-This repo was built quickly, with AI coding assistance. The operating model, the claims, and the honesty calls are mine; the code runs and the tests pass, which is the credential — not the authorship method.
+This repo was built quickly with AI coding assistance. I am accountable for the experimental framing, claims, and limitations; the runnable code, fixtures, and tests make that work inspectable.
 
 ## Table Of Contents
 
 - [Bottom Line](#bottom-line)
 - [Reviewer Start Here](#reviewer-start-here)
+- [Measured Results](#measured-results)
 - [What This Is And Is Not](#what-this-is-and-is-not)
 - [Thought Traces, Not Claims](#thought-traces-not-claims)
 - [The Working Hypothesis](#the-working-hypothesis)
@@ -26,7 +27,7 @@ This repo was built quickly, with AI coding assistance. The operating model, the
 - [Signal Sharing And Patch-Loop Analogy](#signal-sharing-and-patch-loop-analogy)
 - [Controlled Pre-Release Probe Lab](#controlled-pre-release-probe-lab)
 - [How The Prototype Is Structured](#how-the-prototype-is-structured)
-- [What This Demonstrates](#what-this-demonstrates)
+- [Results, Limits, And Operating Implications](#results-limits-and-operating-implications)
 - [What This Does Not Prove](#what-this-does-not-prove)
 - [Next Evaluation Questions](#next-evaluation-questions)
 - [Author Context](#author-context)
@@ -79,11 +80,25 @@ If you only have a few minutes, read this README and skim these anchors:
 
 The most important caveat: this is a portfolio prototype. It is meant to show how I reason, structure risk, preserve uncertainty, and turn weak signals into reviewable operating artifacts. It is not a production detector or a claim that I have solved agentic risk.
 
+## Measured Results
+
+These are small public-data and open-model experiments, not estimates of production prevalence or performance:
+
+| Question | Result | Operating implication |
+|---|---|---|
+| Does a detector generalize across prompt-injection datasets? | A TF-IDF classifier reached 98.0% recall on its source distribution but 12.9% on a different dataset. | High in-distribution scores can reflect memorized phrasing rather than transferable detection. |
+| Does following behavior differ from content detection? | In a 150-case InjecAgent sample, the model completed 14 attacks; provenance-based controls caught 14/14 successful attacks while a naive input detector caught 0/14. | Instrument privileged actions and data flow instead of relying only on suspicious strings. |
+| Can a simple rubric judge trace quality? | It scored 36/36 hand-authored calibration cases but 0/10 adversarial hard cases. | Structural checks are cheap; semantic judgment still needs human or model review. |
+| Do model activations add a clear injection signal? | A linear probe beat entropy and static embeddings, but only narrowly outperformed a lexical control cross-dataset. | Treat the result as exploratory; the evidence does not support a mechanistic or production claim. |
+
+See `BENCHMARKS.md`, `benchmark/MODEL_RESULTS.md`, `evals/eval_results.md`, and `studies/internal-signal-probe/RESULTS.md` for samples, methods, and limitations.
+
 ## What This Is And Is Not
 
 This is:
 
 - A working-hypothesis prototype for agentic risk analysis.
+- A set of reproducible public-data benchmarks and open-model experiments.
 - A public-safe synthetic corpus of traces, probes, and staged sentinel checks.
 - A demonstration of operating judgment: evidence, confidence, severity, owner, mitigation, approval gate, residual risk, and next review.
 - A small runnable system that validates traces and shows how analyst reasoning could be made more legible.
@@ -92,7 +107,7 @@ This is:
 This is not:
 
 - A production detector.
-- A benchmark.
+- A production benchmark or validated safety evaluation.
 - A claim of measured real-world prevalence.
 - A claim of novel academic research.
 - A replacement for internal telemetry, evals, red teaming, policy review, or human investigation.
@@ -459,19 +474,19 @@ The prototype has several layers.
 | Evidence appendix | State what independent model-observation evidence is verified and what remains private or unresolved | `docs/portfolio/model_observation_evidence_appendix.md` |
 | Portfolio docs | Explain the artifact for hiring and review | `docs/portfolio/` |
 
-The small amount of code is intentionally simple. The code is there to make the operating model concrete, not to pretend this is a complete safety platform.
+The code is deliberately scoped to public-data benchmarks, sandboxed experiments, and operating artifacts. It makes the approach inspectable without pretending to be a complete safety platform.
 
-## What This Demonstrates
+## Results, Limits, And Operating Implications
 
-This artifact demonstrates several things at once.
+The evidence supports a narrower set of operating conclusions than a production safety claim.
 
-### Current-Risk Intelligence
+### Operating Model
 
 Weak signals become evidence, confidence, severity, owners, mitigations, and next review points. The artifact is oriented toward the question a risk team actually needs to answer:
 
 > What is changing, why does it matter, who owns the control, and what should happen next?
 
-### Agentic Substrate Fluency
+### Covered Surfaces
 
 The traces cover risks that matter more when models become agents:
 
@@ -484,31 +499,31 @@ The traces cover risks that matter more when models become agents:
 - approval quality failure;
 - agent-on-agent probing.
 
-### Operational Governance
+### Governance Controls
 
 High-impact traces need owners, approval controls, and residual-risk follow-up. The point is not only to detect risk, but to route it into a decision workflow.
 
-### Technical Fluency
+### Runnable Components
 
 The repo includes runnable validators, unit tests, synthetic fixtures, generated reports, and small pipeline scripts. The technical work is intentionally modest, but it makes the artifact inspectable.
 
-### SOTA Self-Awareness
+### Benchmark And Prior-Art Limits
 
 The model-risk review names where this prototype aligns with public agentic-risk work and where it needs stronger adapters: benchmark ingestion, framework crosswalks, threat-model fields, and control-effectiveness metrics.
 
-### Strategic Output
+### Analyst Output
 
 The generated public-signal assessment ranks plausible under-owned or under-instrumented agentic risks and turns them into safe probes and decisions.
 
-### Living-System Posture
+### Update Model
 
 The artifact treats agentic risk as a moving frontier where new models, public discoveries, adversarial probes, and agent-on-agent attacks update the operating picture.
 
-### Product Translation
+### Product-Risk Translation
 
 The artifact translates a familiar security operating model into an auditable, privacy-aware agentic-risk prototype without pretending the analogy is perfect.
 
-### Personal Fit
+### Author Method
 
 This is also a sample of how I work: make ambiguity legible, preserve evidence and uncertainty, organize repeated cases into a taxonomy, and use empty cells in the framework to ask what risk should be present but has not yet been found.
 

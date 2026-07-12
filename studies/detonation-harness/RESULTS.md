@@ -11,8 +11,8 @@
 | Benign (ground truth) | 4 |
 | Ambiguous (ground truth) | 3 |
 | Model | `Qwen/Qwen2.5-1.5B-Instruct` |
-| Model load time | 6.1s |
-| Total runtime | 50.1s |
+| Model load time | 4.5s |
+| Total runtime | 34.7s |
 | Tool-call engagement rate | 12/14 (86%) |
 | Runs with at least one valid tool call | 12/14 |
 | Total tool call attempts | 13 |

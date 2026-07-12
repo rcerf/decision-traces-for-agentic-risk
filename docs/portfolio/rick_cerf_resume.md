@@ -8,7 +8,7 @@ Portfolio: https://github.com/rcerf/decision-traces-for-agentic-risk
 
 ## Summary
 
-Product-risk operator with 13+ years across product risk, monetization, privacy, regulated connected-device launches, ML/data platforms, performance evaluation, dashboards/KPIs, and hands-on agentic-risk prototyping; trained in ethics and American pragmatism at Princeton and software engineering at Hack Reactor.
+Product-risk operator with 12+ years across product risk, monetization, privacy, regulated connected-device launches, ML/data platforms, performance evaluation, dashboards/KPIs, and hands-on agentic-risk prototyping; trained in ethics and American pragmatism at Princeton and software engineering at Hack Reactor.
 
 Built and operated cross-functional risk-review systems that treated individual policy/risk decisions as a corpus: organizing ambiguous product, legal, policy, privacy, and platform signals into taxonomies, owners, mitigations, reusable precedent, launch-readiness decisions, and residual-risk follow-up.
 
@@ -28,12 +28,12 @@ Recent independent work applies the same bottom-up systems approach to agentic A
 
 Founder — independent work on agentic risk, evals, model-behavior, deployment governance | 2026 - Present
 
-- Conducting independent agentic-risk prototyping focused on deployment-time governance, structured public-model behavior observation, decision records, and human-in-the-loop control patterns.
-- Built a private exploratory model-observation system inside Sovereign OS, including a 44-model behavior registry, 118 benchmark result files behind a bootstrap-validated cross-model analysis, and a separate 7 Claude-family-judge / 96-segment cross-judge agreement study; added a public-safe evidence appendix rather than publishing raw logs.
-- Built and prototyped Sovereign OS, a personal cognition harness exploring model routing, retrieval, memory, privacy boundaries, decision traces, approval states, and correction/override loops for AI-assisted work.
-- Designed decision-trace concepts for making AI-assisted decisions inspectable: capturing assumptions, evidence, uncertainty, mitigations, human approvals, overrides, outcomes, and residual risk.
-- Prototyped governance primitives for agentic workflows, including risk-tiered approval gates, override tracking, memory review states, strict eval scoring, and a prompt-injection monitor benchmarked against four public injection datasets (16,578 labeled samples) with the recall/precision tradeoff recorded rather than hidden.
-- Built Decision Traces for Agentic Risk, a compact public-safe working prototype showing how weak signals can become safe probes, synthetic traces, patch candidates, owners, approval gates, and residual monitors.
+- Built Decision Traces for Agentic Risk, a public portfolio of runnable benchmarks, sandboxed agent experiments, structured risk traces, operating metrics, owners, approval gates, mitigations, and residual-risk follow-up.
+- Built a reproducible prompt-injection benchmark across two public datasets and four detector tiers; a TF-IDF classifier reached 98.0% recall on its source distribution but only 12.9% on a different dataset.
+- Built a sandboxed agent detonation harness and provenance-action gate; on a 150-case InjecAgent sample, measured 9.3% attack success and showed provenance-based controls caught all 14 successful attacks in the sample, versus 0 for a naive input detector.
+- Tested a linear activation probe on an open 0.5B model: it beat entropy and static embeddings, but only narrowly outperformed a lexical control cross-dataset, so the result is reported as exploratory rather than mechanistic.
+- Built a private exploratory model-observation system inside Sovereign OS, including a 44-model behavior registry, 118 benchmark result files, and a separate 7-judge / 96-segment agreement study; published a count-and-limit appendix rather than raw private logs.
+- Designed decision traces for inspectable AI-assisted decisions: assumptions, evidence, uncertainty, competing hypotheses, mitigations, approvals, overrides, outcomes, residual risk, and next review points.
 
 ### Meta
 

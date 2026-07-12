@@ -103,18 +103,14 @@ What to look for:
 - The patch-loop case can be regenerated from a structured public-safe case file.
 - The opt-in signal-sharing report can be regenerated from aggregate-only synthetic volunteer node events.
 
-## What This Demonstrates
+## Evidence To Inspect
 
-- I can structure ambiguous risk signals into decision-ready artifacts.
-- I understand that agentic risk lives across the run lifecycle, not only in final output.
-- I can connect public research, incidents, journalism, and social weak signals into a safe probe backlog.
-- I can build a small runnable system rather than only write a memo.
-- I can pressure-test my own artifact against current public research and name the missing pieces without overclaiming.
-- I can produce a ranked risk assessment and expose the product logic behind it.
-- I can translate a familiar security operating model into an auditable, privacy-aware agentic-risk concept without presenting it as proven.
-- I can reason about future agent-on-agent pressure as an operating challenge, not a speculative claim of solved safety.
-- I can sketch pre-release role-separated probing as an analyst workflow that joins capability change, historical failures, expert strategy, mitigations, and residual monitoring.
-- I can adapt prior routing-gate work into a hypothesis for privacy-preserving agentic-risk triage.
+- Structured traces convert ambiguous signals into evidence, uncertainty, owners, mitigations, approval gates, and next review points.
+- Public-data benchmarks expose both detector performance and cross-dataset failure.
+- Sandboxed tool-use runs separate suspicious content from risky action and authorization paths.
+- The hard eval set documents where deterministic scoring fails and where semantic review is still required.
+- Generated briefs and risk registers show how findings route into an operating cadence rather than ending as standalone experiments.
+- Limitations and prior art are stated beside each result so the reader can distinguish measured evidence from proposed extensions.
 
 ## What This Does Not Yet Prove
 
