@@ -6,7 +6,7 @@ The point of the repo is not to claim that I solved agentic risk. I have not. Th
 
 This README is the primary artifact. A reader should be able to scroll this page and understand the idea without opening a dozen files. The supporting files are included for verification, examples, and deeper inspection.
 
-Most examples are synthetic, but the repo also includes one decision trace built from a real, publicly-documented incident (`examples/real_incidents/`), a reproducible benchmark of the detector against a real public dataset (`benchmark/`), and a labeled eval set with a runnable scorer (`evals/`). It contains no private Meta, JUUL, OpenAI, or personal data.
+Most examples are synthetic, but the repo also includes one decision trace built from a real, publicly-documented incident (`examples/real_incidents/`), a reproducible benchmark of the detector against a real public dataset (`benchmark/`), and a labeled eval set with a runnable scorer (`evals/`).
 
 This repo was built quickly with AI coding assistance. I am accountable for the experimental framing, claims, and limitations; the runnable code, fixtures, and tests make that work inspectable.
 
